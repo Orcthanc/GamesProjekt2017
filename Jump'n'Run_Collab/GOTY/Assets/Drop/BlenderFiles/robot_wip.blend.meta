@@ -12,7 +12,9 @@ ModelImporter:
     400002: Empty
     400004: //RootNode
     2300000: Cylinder
+    2300002: //RootNode
     3300000: Cylinder
+    3300002: //RootNode
     4300000: Cylinder
     7400000: Default Take
     9500000: //RootNode
