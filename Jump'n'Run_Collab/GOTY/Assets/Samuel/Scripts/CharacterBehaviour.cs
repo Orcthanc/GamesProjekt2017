@@ -71,6 +71,7 @@ public class CharacterBehaviour : MonoBehaviour {
         charController = gameObject.GetComponent<CharacterController>();
         movementSettings.init();
         m_Sphere = gameObject.GetComponent<SphereCollider>();
+        Cursor.lockState = CursorLockMode.Locked;
 	}
 	
 	// Update is called once per frame
