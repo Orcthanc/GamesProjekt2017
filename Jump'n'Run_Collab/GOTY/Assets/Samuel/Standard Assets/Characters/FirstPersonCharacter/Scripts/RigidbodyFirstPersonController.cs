@@ -197,6 +197,13 @@ namespace UnityStandardAssets.Characters.FirstPerson
         }
 
 
+        public void rotate(Vector2 vec2)
+        {
+            transform.localRotation *= Quaternion.Euler(0f, vec2.y, 0f);
+            cam.transform.localRotation *= Quaternion.Euler(-vec2.x, 0f, 0f);
+        }
+
+
         private float SlopeMultiplier()
         {
             float angle = Vector3.Angle(m_GroundContactNormal, Vector3.up);
