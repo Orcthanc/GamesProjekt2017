@@ -131,6 +131,9 @@ MonoBehaviour:
   shotCooldown: 1
   agro: 0
   player: {fileID: 0}
+  speed: 2
+  rotationSpeed: 180
+  distanceToPlayer: 15
 --- !u!137 &137267859487771628
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
