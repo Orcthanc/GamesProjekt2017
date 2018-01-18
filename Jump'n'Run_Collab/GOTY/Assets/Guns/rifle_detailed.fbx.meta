@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 6146983466d2843c5825dbdb7cf94599
-timeCreated: 1515589315
+timeCreated: 1516271469
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
@@ -18,9 +18,10 @@ ModelImporter:
     7400000: Rifle|Action.001
     7400002: Rifle|Action.002
     7400004: Rifle|Shoot.001
-    7400006: Rifle|Shoot
+    7400006: Shoot
     9500000: //RootNode
     10800000: Point
+    11100000: //RootNode
     13700000: Rifle
   externalObjects:
   - first:
@@ -53,7 +54,7 @@ ModelImporter:
     bakeSimulation: 0
     resampleCurves: 1
     optimizeGameObjects: 0
-    motionNodeName: 
+    motionNodeName: FPS_CAM
     rigImportErrors: 
     rigImportWarnings: 
     animationImportErrors: 
@@ -70,11 +71,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Rifle|Shoot
+      name: Shoot
       takeName: Rifle|Shoot.002
       firstFrame: 0
       lastFrame: 10
-      wrapMode: 0
+      wrapMode: 2
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
@@ -136,13 +137,13 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    rootMotionBoneName: 
+    rootMotionBoneName: Rifle
     rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
-    hasExtraRoot: 0
+    hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 2
+  animationType: 1
   humanoidOversampling: 1
   additionalBone: 0
   userData: 

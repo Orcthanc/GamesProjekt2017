@@ -1,56 +1,107 @@
 fileFormatVersion: 2
 guid: 813c39b1bf7ef41218ec11a31d85d9e5
-timeCreated: 1515612667
+timeCreated: 1516267177
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
-    100000: Camera
-    100002: Cylinder
-    100004: Empty
-    100006: //RootNode
-    100008: Spot
-    100010: Spot.001
-    100012: Point
-    100014: Point.001
-    100016: Point.002
-    400000: Camera
-    400002: Cylinder
-    400004: Empty
-    400006: //RootNode
-    400008: Spot
-    400010: Spot.001
-    400012: Point
-    400014: Point.001
-    400016: Point.002
-    2000000: Camera
-    2300000: Cylinder
-    2300002: //RootNode
-    3300000: Cylinder
-    3300002: //RootNode
-    4300000: Cylinder
-    4300002: Cube
-    10800000: Spot
-    10800002: Spot.001
-    10800004: Point
-    10800006: Point.001
-    10800008: Point.002
+    100000: Cylinder
+    100002: Empty
+    100004: forearm.L
+    100006: forearm.L.001
+    100008: forearm.L.002
+    100010: forearm.L.003
+    100012: forearm.L.003_end
+    100014: forearm.R
+    100016: forearm.R.001
+    100018: forearm.R.002
+    100020: forearm.R.002_end
+    100022: hand.L
+    100024: hand.L.001
+    100026: hand.L.002
+    100028: hand.L.002_end
+    100030: hand.R
+    100032: hand.R.001
+    100034: hand.R.002
+    100036: hand.R.002_end
+    100038: metarig
+    100040: Rifle
+    100042: RifleEmpty
+    100044: //RootNode
+    100046: shin.L
+    100048: shin.L_end
+    100050: shin.R
+    100052: shin.R_end
+    100054: shoulder.L
+    100056: shoulder.R
+    100058: spine
+    100060: spine.001
+    100062: spine.002
+    100064: spine.003
+    100066: spine.004
+    100068: spine.005
+    100070: spine.006
+    100072: spine.006_end
+    100074: thigh.L
+    100076: thigh.R
+    100078: upper_arm.L
+    100080: upper_arm.R
+    400000: Cylinder
+    400002: Empty
+    400004: forearm.L
+    400006: forearm.L.001
+    400008: forearm.L.002
+    400010: forearm.L.003
+    400012: forearm.L.003_end
+    400014: forearm.R
+    400016: forearm.R.001
+    400018: forearm.R.002
+    400020: forearm.R.002_end
+    400022: hand.L
+    400024: hand.L.001
+    400026: hand.L.002
+    400028: hand.L.002_end
+    400030: hand.R
+    400032: hand.R.001
+    400034: hand.R.002
+    400036: hand.R.002_end
+    400038: metarig
+    400040: Rifle
+    400042: RifleEmpty
+    400044: //RootNode
+    400046: shin.L
+    400048: shin.L_end
+    400050: shin.R
+    400052: shin.R_end
+    400054: shoulder.L
+    400056: shoulder.R
+    400058: spine
+    400060: spine.001
+    400062: spine.002
+    400064: spine.003
+    400066: spine.004
+    400068: spine.005
+    400070: spine.006
+    400072: spine.006_end
+    400074: thigh.L
+    400076: thigh.R
+    400078: upper_arm.L
+    400080: upper_arm.R
+    2300000: Rifle
+    3300000: Rifle
+    4300000: Rifle
+    4300002: Cylinder
+    7400000: Walk
+    7400002: Shoot
+    7400004: metarig|Walk
+    9500000: //RootNode
+    13700000: Cylinder
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Material.001
-    second: {fileID: 2100000, guid: 90c43d4ab42cc404291a308a38dc81d7, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Material.002
-    second: {fileID: 2100000, guid: 09f4a017f9e154812a351fb5c61cd93f, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Material.003
-    second: {fileID: 2100000, guid: 63c64e2f178044454ad317e1abc29837, type: 2}
+    second: {fileID: 2100000, guid: 8cd6066390f6f49258ccfddc3994bd28, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -96,11 +147,67 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Walk
+      takeName: walk
+      firstFrame: 0
+      lastFrame: 30
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Shoot
+      takeName: Shoot
+      firstFrame: 0
+      lastFrame: 39
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 0.2
     meshCompression: 0
     addColliders: 0
     importVisibility: 1
@@ -142,7 +249,7 @@ ModelImporter:
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 0
+  animationType: 2
   humanoidOversampling: 1
   additionalBone: 0
   userData: 

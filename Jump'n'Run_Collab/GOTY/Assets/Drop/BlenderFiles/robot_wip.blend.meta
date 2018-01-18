@@ -8,17 +8,91 @@ ModelImporter:
     100000: Cylinder
     100002: Empty
     100004: //RootNode
+    100006: forearm_L
+    100008: forearm_L_001
+    100010: forearm_L_002
+    100012: forearm_L_003
+    100014: forearm_R
+    100016: forearm_R_001
+    100018: forearm_R_002
+    100020: hand_L
+    100022: hand_L_001
+    100024: hand_L_002
+    100026: hand_R
+    100028: hand_R_001
+    100030: hand_R_002
+    100032: metarig
+    100034: Rifle
+    100036: shin_L
+    100038: shin_R
+    100040: shoulder_L
+    100042: shoulder_R
+    100044: spine
+    100046: spine_001
+    100048: spine_002
+    100050: spine_003
+    100052: spine_004
+    100054: spine_005
+    100056: spine_006
+    100058: thigh_L
+    100060: thigh_R
+    100062: upper_arm_L
+    100064: upper_arm_R
+    100066: RifleEmpty
     400000: Cylinder
     400002: Empty
     400004: //RootNode
+    400006: forearm_L
+    400008: forearm_L_001
+    400010: forearm_L_002
+    400012: forearm_L_003
+    400014: forearm_R
+    400016: forearm_R_001
+    400018: forearm_R_002
+    400020: hand_L
+    400022: hand_L_001
+    400024: hand_L_002
+    400026: hand_R
+    400028: hand_R_001
+    400030: hand_R_002
+    400032: metarig
+    400034: Rifle
+    400036: shin_L
+    400038: shin_R
+    400040: shoulder_L
+    400042: shoulder_R
+    400044: spine
+    400046: spine_001
+    400048: spine_002
+    400050: spine_003
+    400052: spine_004
+    400054: spine_005
+    400056: spine_006
+    400058: thigh_L
+    400060: thigh_R
+    400062: upper_arm_L
+    400064: upper_arm_R
+    400066: RifleEmpty
     2300000: Cylinder
     2300002: //RootNode
     3300000: Cylinder
     3300002: //RootNode
     4300000: Cylinder
+    4300002: Rifle
     7400000: Default Take
+    7400002: shoot
+    7400004: Walk_001
+    7400006: Shoot
+    7400008: Walk
     9500000: //RootNode
+    13700000: Cylinder
+    13700002: Rifle
   externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material_001
+    second: {fileID: 2100000, guid: eaa6bb540e4d04b9dba9baeb5ed43114, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
