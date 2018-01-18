@@ -2,16 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FlyingRobot : Enemy {
+public class FlyingRobotBehaviour : Enemy {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
+    public GameObject player;
 	
     public override void Move()
     {
-
+        transform.LookAt(player.transform);
+        transform.Rotate(new Vector3(0, 180, 0), Space.Self);
     }
 
     public override bool CheckAgro()
@@ -21,6 +19,6 @@ public class FlyingRobot : Enemy {
 
     public override void Shoot()
     {
-        throw new System.NotImplementedException();
+        Debug.Log(Random.value);
     }
 }

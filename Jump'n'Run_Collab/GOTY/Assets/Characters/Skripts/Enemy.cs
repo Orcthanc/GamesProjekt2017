@@ -10,9 +10,9 @@ public abstract class Enemy : MonoBehaviour {
 
     public bool agro = false;
 
-    private int hp = 100;
+    protected int hp = 100;
 
-    private CharacterController charController;
+    protected CharacterController charController;
 
     public int Damage
     {
