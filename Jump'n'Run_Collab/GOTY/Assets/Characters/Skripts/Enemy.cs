@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof (CharacterController))]
 public abstract class Enemy : MonoBehaviour {
 
     public float shotCooldown = 1f;
@@ -10,6 +11,8 @@ public abstract class Enemy : MonoBehaviour {
     public bool agro = false;
 
     private int hp = 100;
+
+    private CharacterController charController;
 
     public int Damage
     {
@@ -20,6 +23,11 @@ public abstract class Enemy : MonoBehaviour {
         set{
             hp -= value;
         }
+    }
+
+    public void Start()
+    {
+        charController = GetComponent<CharacterController>();
     }
 
     public void Update()
