@@ -7,6 +7,7 @@ public class FlyingRobotBehaviour : Enemy {
     public GameObject player;
     public float speed = 2;
     public float rotationSpeed = 100;
+    public float distanceToPlayer = 15;
     private Transform target;
 
     public new void Start()
@@ -26,6 +27,15 @@ public class FlyingRobotBehaviour : Enemy {
         transform.rotation = Quaternion.RotateTowards(transform.rotation, target.rotation, step);
 
         charController.Move(transform.right * Time.deltaTime * speed);
+
+        if(Mathf.Abs((transform.position - player.transform.position).magnitude) > distanceToPlayer)
+        {
+            charController.Move(transform.forward * Time.deltaTime * speed / 2f);
+        }
+        else
+        {
+            charController.Move(-transform.forward * Time.deltaTime * speed / 4f);
+        }
     }
 
     public override bool CheckAgro()
