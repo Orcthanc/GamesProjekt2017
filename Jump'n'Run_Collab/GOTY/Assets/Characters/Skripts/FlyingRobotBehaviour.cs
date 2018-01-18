@@ -5,12 +5,15 @@ using UnityEngine;
 public class FlyingRobotBehaviour : Enemy {
 
     public GameObject player;
+    public float speed = 2;
     public float rotationSpeed = 100;
     private Transform target;
 
     public new void Start()
     {
+        base.Start();
         target = new GameObject().transform;
+        speed *= Mathf.Sign(Random.Range(-1, 1));
     }
 
     public override void Move()
@@ -22,6 +25,7 @@ public class FlyingRobotBehaviour : Enemy {
         float step = rotationSpeed * Time.deltaTime;
         transform.rotation = Quaternion.RotateTowards(transform.rotation, target.rotation, step);
 
+        charController.Move(transform.right * Time.deltaTime * speed);
     }
 
     public override bool CheckAgro()
