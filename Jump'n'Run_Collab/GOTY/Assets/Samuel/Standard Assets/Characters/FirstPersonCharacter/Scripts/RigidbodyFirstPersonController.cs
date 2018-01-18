@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace UnityStandardAssets.Characters.FirstPerson
 {
@@ -55,6 +56,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             public GameObject spawnPoint;
         }
 
+        public UnityEvent onUpdate;
 
         public Camera cam;
         public MovementSettings movementSettings = new MovementSettings();
@@ -122,6 +124,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
             {
                 m_ChangeTimeScale = true;
             }
+
+            onUpdate.Invoke();
         }
 
 
