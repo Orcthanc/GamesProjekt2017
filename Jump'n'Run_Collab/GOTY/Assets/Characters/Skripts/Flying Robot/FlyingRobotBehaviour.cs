@@ -9,6 +9,8 @@ public class FlyingRobotBehaviour : Enemy {
     public float rotationSpeed = 100;
     public float distanceToPlayer = 15;
     private Transform target;
+    [SerializeField]
+    private Transform projectileSpawn;
 
     public new void Start()
     {
