@@ -34,11 +34,11 @@ public class FlyingRobotBehaviour : Enemy {
 
         if(Mathf.Abs((transform.position - player.transform.position).magnitude) > distanceToPlayer)
         {
-            charController.Move(transform.forward * Time.deltaTime * speed * 0.5f);
+            charController.Move(-transform.forward * Time.deltaTime * Mathf.Abs(speed) * 0.9f);
         }
         else
         {
-            charController.Move(-transform.forward * Time.deltaTime * speed * 0.5f);
+            charController.Move(transform.forward * Time.deltaTime * Mathf.Abs(speed) * 0.5f);
         }
     }
 
