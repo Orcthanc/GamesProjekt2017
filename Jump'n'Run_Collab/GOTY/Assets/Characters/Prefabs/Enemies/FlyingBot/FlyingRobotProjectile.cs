@@ -2,15 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FlyingRobotBehaviour : MonoBehaviour {
+public class FlyingRobotProjectile : Projectile {
 
 	// Use this for initialization
 	void Start () {
 		
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }

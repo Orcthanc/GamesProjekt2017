@@ -33,5 +33,5 @@ sysinfo.txt
 *.apk
 *.unitypackage
 
-# Removed broken shards of unity collab
+# Relics of Unity Collab
 .collabignore
