@@ -13,6 +13,9 @@ public abstract class Enemy : MonoBehaviour {
 
     protected CharacterController charController;
 
+    /// <summary>
+    /// Used to get the following hp or remove a certain amount of hp with the setter (hp -= value)
+    /// </summary>
     public int Damage
     {
         get{
@@ -47,10 +50,20 @@ public abstract class Enemy : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Used to check agro while not agroed (is player in sight?)
+    /// </summary>
+    /// <returns>Returns true if the enemy should start attacking the player</returns>
     public abstract bool CheckAgro();
 
+    /// <summary>
+    /// Moves the robot
+    /// </summary>
     public abstract void Move();
 
+    /// <summary>
+    /// Spawns a new projectile
+    /// </summary>
     public abstract void Shoot();
 
 }
