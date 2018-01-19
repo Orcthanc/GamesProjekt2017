@@ -6,7 +6,7 @@ using UnityEngine;
 public abstract class Enemy : MonoBehaviour {
 
     public float shotCooldown = 1f;
-    public readonly float standardShotCooldown = 1f;
+    public float standardShotCooldown = 1f;
 
     public bool agro = false;
 
