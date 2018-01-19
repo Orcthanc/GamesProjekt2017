@@ -8,6 +8,7 @@ public class FlyingRobotBehaviour : Enemy {
     public float speed = 2;
     public float rotationSpeed = 100;
     public float distanceToPlayer = 15;
+    public float inaccuracy = 10;
     public GameObject projectile;
     private Transform target;
     [SerializeField]
@@ -48,7 +49,6 @@ public class FlyingRobotBehaviour : Enemy {
 
     public override void Shoot()
     {
-        GameObject temp = Instantiate(projectile, projectileSpawn.transform.position, projectileSpawn.transform.rotation);
-        //temp.transform.position = transform.position;
+        GameObject temp = Instantiate(projectile, projectileSpawn.transform.position, HelperMethods.scatter(projectileSpawn.transform.rotation, inaccuracy));
     }
 }
