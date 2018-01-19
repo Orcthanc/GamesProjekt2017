@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShootingHelper {
+public class HelperMethods {
 
     /// <summary>
     /// Returns a Quaternion slightly rotated by a random amount in a random direction.
