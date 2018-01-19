@@ -707,7 +707,7 @@ MonoBehaviour:
   movementSettings:
     StandardSpeed: 4
     Speed: 2
-    RunMultiplier: 1.5
+    RunMultiplier: 1.8
     RunKey: 304
     JumpForce: 7
     SlopeCurveModifier:

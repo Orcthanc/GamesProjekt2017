@@ -159,14 +159,27 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 // always move along the camera forward as it is the direction that it being aimed at
                 Vector3 desiredMove = cam.transform.forward*input.y + cam.transform.right*input.x;
                 desiredMove = Vector3.ProjectOnPlane(desiredMove, m_GroundContactNormal).normalized;
-
-                desiredMove.x = desiredMove.x*movementSettings.Speed;
-                desiredMove.z = desiredMove.z*movementSettings.Speed;
-                desiredMove.y = desiredMove.y*movementSettings.Speed;
-                if (m_RigidBody.velocity.sqrMagnitude <
-                    (movementSettings.Speed*movementSettings.Speed))
+                if (m_IsGrounded)
                 {
-                    m_RigidBody.AddForce(desiredMove*SlopeMultiplier(), ForceMode.Impulse);
+                    desiredMove.x = desiredMove.x * movementSettings.Speed;
+                    desiredMove.z = desiredMove.z * movementSettings.Speed;
+                    desiredMove.y = desiredMove.y * movementSettings.Speed;
+                    if (m_RigidBody.velocity.sqrMagnitude <
+                    (movementSettings.Speed * movementSettings.Speed))
+                    {
+                        m_RigidBody.AddForce(desiredMove * SlopeMultiplier(), ForceMode.Impulse);
+                    }
+                }
+                else
+                {
+                    desiredMove.x = (m_AirDirection * m_Airspeed).x;
+                    desiredMove.y = (m_AirDirection * m_Airspeed).y;
+                    desiredMove.z = (m_AirDirection * m_Airspeed).x;
+                    if (m_RigidBody.velocity.sqrMagnitude <
+                    (m_Airspeed.magnitude * m_Airspeed.magnitude))
+                    {
+                        m_RigidBody.AddForce(desiredMove * SlopeMultiplier(), ForceMode.Impulse);
+                    }
                 }
             }
 
@@ -261,14 +274,14 @@ namespace UnityStandardAssets.Characters.FirstPerson
             {
                 if (Input.GetAxisRaw("Horizontal") > 0)
                 {
-                    if (Quaternion.Angle(m_AirDirection, transform.rotation) < 90)
+                    if (Quaternion.Angle(m_AirDirection, transform.rotation) < 45)
                     {
                         m_RigidBody.velocity = Quaternion.AngleAxis(Input.GetAxis("Horizontal") * advancedSettings.airRotationSpeed * Time.deltaTime, Vector3.up) * m_RigidBody.velocity;
                     }
                 }
                 else if (Input.GetAxisRaw("Horizontal") < 0)
                 {
-                    if (Quaternion.Angle(transform.rotation, m_AirDirection) < 90)
+                    if (Quaternion.Angle(transform.rotation, m_AirDirection) < 45)
                     {
                         m_RigidBody.velocity = Quaternion.AngleAxis(Input.GetAxis("Horizontal") * advancedSettings.airRotationSpeed * Time.deltaTime, Vector3.up) * m_RigidBody.velocity;
                     }
