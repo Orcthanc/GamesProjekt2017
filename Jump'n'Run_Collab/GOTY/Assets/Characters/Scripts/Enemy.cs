@@ -29,7 +29,6 @@ public abstract class Enemy : MonoBehaviour {
 
     public void Start()
     {
-        charController = GetComponent<CharacterController>();
     }
 
     public void Update()

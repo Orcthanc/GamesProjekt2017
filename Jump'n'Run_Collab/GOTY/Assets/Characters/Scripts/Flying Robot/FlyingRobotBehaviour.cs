@@ -18,7 +18,7 @@ public class FlyingRobotBehaviour : Enemy {
 
     public new void Start()
     {
-        base.Start();
+        charController = GetComponent<CharacterController>();
         target = new GameObject().transform;
         speed *= Mathf.Sign(Random.Range(-1, 1));
         anim = GetComponentInChildren<Animation>();
