@@ -24,6 +24,9 @@ public class FlyingRobotBehaviour : Enemy {
         anim = GetComponentInChildren<Animation>();
     }
 
+    /// <summary>
+    /// Moves the robot
+    /// </summary>
     public override void Move()
     {
         if (!anim.isPlaying)
@@ -48,6 +51,10 @@ public class FlyingRobotBehaviour : Enemy {
         }
     }
 
+    /// <summary>
+    /// Used to check agro while not agroed (is player in sight?)
+    /// </summary>
+    /// <returns>Returns true if the enemy should start attacking the player</returns>
     public override bool CheckAgro()
     {
         if (!anim.isPlaying)
@@ -55,6 +62,9 @@ public class FlyingRobotBehaviour : Enemy {
         return true;
     }
 
+    /// <summary>
+    /// Spawns a new projectile
+    /// </summary>
     public override void Shoot()
     {
         anim.Play("Shoot");
