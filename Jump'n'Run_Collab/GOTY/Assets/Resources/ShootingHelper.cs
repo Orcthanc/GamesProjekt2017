@@ -10,7 +10,7 @@ public class ShootingHelper {
     /// <param name="dir">The original direction</param>
     /// <param name="inaccuracy">The highest possible rotation that can be applied to \"dir\" by this function</param>
     /// <returns>A slightly randomified Quaternion</returns>
-	public static Quaternion scatter(Quaternion dir, int inaccuracy)
+	public static Quaternion scatter(Quaternion dir, float inaccuracy)
     {
         return Quaternion.RotateTowards(dir, new Quaternion(Random.value, Random.value, Random.value, Random.value), Random.value * inaccuracy);
     }
