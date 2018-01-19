@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof (CharacterController))]
 public abstract class Enemy : MonoBehaviour {
 
     public float shotCooldown = 1f;
