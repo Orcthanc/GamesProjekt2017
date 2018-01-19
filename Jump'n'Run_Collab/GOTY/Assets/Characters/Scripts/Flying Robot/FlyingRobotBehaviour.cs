@@ -11,6 +11,7 @@ public class FlyingRobotBehaviour : Enemy {
     public float inaccuracy = 10;
     public GameObject projectile;
     private Transform target;
+    private Animation anim;
     [SerializeField]
     private Transform projectileSpawn;
 
@@ -19,10 +20,14 @@ public class FlyingRobotBehaviour : Enemy {
         base.Start();
         target = new GameObject().transform;
         speed *= Mathf.Sign(Random.Range(-1, 1));
+        anim = GetComponentInChildren<Animation>();
     }
 
     public override void Move()
     {
+        if (!anim.isPlaying)
+            anim.Play("Idle");
+
         target.position = transform.position;
         target.LookAt(player.transform);
         target.Rotate(new Vector3(0, 180, 0), Space.Self);
@@ -44,11 +49,14 @@ public class FlyingRobotBehaviour : Enemy {
 
     public override bool CheckAgro()
     {
+        if (!anim.isPlaying)
+            anim.Play("Idle");
         return true;
     }
 
     public override void Shoot()
     {
+        anim.Play("Shoot");
         GameObject temp = Instantiate(projectile, projectileSpawn.transform.position, HelperMethods.scatter(projectileSpawn.transform.rotation, inaccuracy));
     }
 }
