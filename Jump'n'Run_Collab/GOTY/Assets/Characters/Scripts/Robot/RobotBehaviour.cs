@@ -111,7 +111,7 @@ public class RobotBehaviour : Enemy
         shot.SetPosition(0, muzzle.position);
         shot.SetPosition(1, target);
         shot.enabled = true;
-        yield return 0.7f;
+        yield return new WaitForSeconds(0.1f);
         shot.enabled = false;
     }
 
