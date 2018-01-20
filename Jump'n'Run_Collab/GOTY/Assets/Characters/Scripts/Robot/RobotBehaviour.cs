@@ -2,6 +2,7 @@
 using UnityEngine.AI;
 using System.Security;
 using NUnit.Framework.Constraints;
+using System.Collections;
 
 public class RobotBehaviour : Enemy
 {
@@ -12,6 +13,7 @@ public class RobotBehaviour : Enemy
     private Transform eyes;
     private Transform muzzle;
     private Transform lastSeen;
+    private LineRenderer shot;
     private float preferedDistance;
     private bool aiming;
 
@@ -29,6 +31,7 @@ public class RobotBehaviour : Enemy
         agent.autoTraverseOffMeshLink = true;
         eyes = transform.Find("Eyes");
         muzzle = Find(transform,"Muzzle");
+        shot = GetComponent<LineRenderer>();
         preferedDistance = Random.Range(shootDistance / 2, shootDistance);
 
 
@@ -81,7 +84,17 @@ public class RobotBehaviour : Enemy
 
             Vector3 spread = new Vector3(RandomSpread(),RandomSpread(), RandomSpread());
             Vector3 dir = Vector3.Normalize(player.position - muzzle.position) + spread;
+            RaycastHit hitInfo;
+
             Debug.DrawRay(muzzle.position, dir, Color.green, 1f);
+
+            if (Physics.Raycast(muzzle.position, dir, out hitInfo, shootDistance))
+            {
+                Debug.Log(hitInfo.distance);
+                StartCoroutine(Shoot((dir / 10 * hitInfo.distance)));
+            }
+            StartCoroutine(Shoot(muzzle.position + (dir * shootDistance)));
+
 
             if (!Physics.Raycast(muzzle.position, dir, shootDistance, othermask)
                 && Physics.Raycast(muzzle.position, dir, shootDistance, layermask))
@@ -91,6 +104,15 @@ public class RobotBehaviour : Enemy
 
             anim.SetTrigger("Shoot");
         }
+    }
+
+    private IEnumerator Shoot(Vector3 target)
+    {
+        shot.SetPosition(0, muzzle.position);
+        shot.SetPosition(1, target);
+        shot.enabled = true;
+        yield return 0.7f;
+        shot.enabled = false;
     }
 
     public float RandomSpread(){
@@ -146,7 +168,6 @@ public class RobotBehaviour : Enemy
 
     public void updateLastSeen(){
         if(SeesPlayer()){
-            Debug.Log("I CAN SEE YOU");
             lastSeen = player;
         }       
     }
