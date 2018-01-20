@@ -68,6 +68,6 @@ public class FlyingRobotBehaviour : Enemy {
     public override void Shoot()
     {
         anim.Play("Shoot");
-        GameObject temp = Instantiate(projectile, projectileSpawn.transform.position, HelperMethods.scatter(projectileSpawn.transform.rotation, inaccuracy));
+        Instantiate(projectile, projectileSpawn.transform.position, HelperMethods.scatter(projectileSpawn.transform.rotation, inaccuracy));
     }
 }
