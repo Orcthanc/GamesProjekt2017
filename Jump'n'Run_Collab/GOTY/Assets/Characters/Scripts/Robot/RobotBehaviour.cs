@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 using System.Security;
-using NUnit.Framework.Constraints;
 using System.Collections;
 
 public class RobotBehaviour : Enemy
@@ -90,10 +89,12 @@ public class RobotBehaviour : Enemy
 
             if (Physics.Raycast(muzzle.position, dir, out hitInfo, shootDistance))
             {
-                Debug.Log(hitInfo.distance);
-                StartCoroutine(Shoot((dir / 10 * hitInfo.distance)));
+                StartCoroutine(Shoot((dir * hitInfo.distance)));
             }
-            StartCoroutine(Shoot(muzzle.position + (dir * shootDistance)));
+            else
+            {
+                StartCoroutine(Shoot(muzzle.position + (dir * shootDistance)));
+            }
 
 
             if (!Physics.Raycast(muzzle.position, dir, shootDistance, othermask)
