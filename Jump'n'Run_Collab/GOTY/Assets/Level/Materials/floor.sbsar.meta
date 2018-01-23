@@ -1,23 +1,23 @@
 fileFormatVersion: 2
-guid: 77e4df321d32144ef912a61d1591d8c9
-timeCreated: 1516728815
+guid: 1a1bfa054e7e04096a65e56f164bca18
+timeCreated: 1516730969
 licenseType: Free
 SubstanceImporter:
   externalObjects: {}
   serializedVersion: 5
   materialInstances:
   - serializedVersion: 16
-    name: New_Graph
+    name: floor
     prototypeName: New_Graph
     shaderName: 
-    shader: {fileID: 45, guid: 0000000000000000f000000000000000, type: 0}
-    shaderKeywords: _NORMALMAP _PARALLAXMAP
+    shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+    shaderKeywords: 
     renderQueue: -1
     lightmapFlags: 4
     inputs:
     - name: $randomseed
       value:
-        scalar[0]: 1731
+        scalar[0]: 0
         scalar[1]: 0
         scalar[2]: 0
         scalar[3]: 0
@@ -26,7 +26,7 @@ SubstanceImporter:
     materialInformation:
       serializedVersion: 5
       offset: {x: 0, y: 0}
-      scale: {x: 1, y: 1}
+      scale: {x: 5, y: 5}
       generateMipmaps: 1
       generateAllOutputs: 0
       animationUpdateRate: 0
@@ -57,15 +57,15 @@ SubstanceImporter:
           texture: {instanceID: 0}
           scale: {x: 1, y: 1}
           offset: {x: 0, y: 0}
+      - _MetallicGlossMap:
+          texture: {instanceID: 0}
+          scale: {x: 1, y: 1}
+          offset: {x: 0, y: 0}
       - _OcclusionMap:
           texture: {instanceID: 0}
           scale: {x: 1, y: 1}
           offset: {x: 0, y: 0}
       - _ParallaxMap:
-          texture: {instanceID: 0}
-          scale: {x: 1, y: 1}
-          offset: {x: 0, y: 0}
-      - _SpecGlossMap:
           texture: {instanceID: 0}
           scale: {x: 1, y: 1}
           offset: {x: 0, y: 0}
@@ -89,24 +89,23 @@ SubstanceImporter:
       colors:
       - _Color: {r: 1, g: 1, b: 1, a: 1}
       - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-      - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
     textureParameters:
-    - name: New_Graph_basecolor
+    - name: floor_basecolor
       alphaSource: 6
       filterMode: 1
       aniso: 1
       wrapMode: 0
-    - name: New_Graph_normal
+    - name: floor_normal
       alphaSource: 0
       filterMode: 1
       aniso: 1
       wrapMode: 0
-    - name: New_Graph_metallic
+    - name: floor_metallic
       alphaSource: 7
       filterMode: 1
       aniso: 1
       wrapMode: 0
-    - name: New_Graph_height
+    - name: floor_height
       alphaSource: 0
       filterMode: 1
       aniso: 1
@@ -118,6 +117,9 @@ SubstanceImporter:
     - shaderProp: _BumpMap
       material: {instanceID: 0}
       baseUID: 679316570
+    - shaderProp: _MetallicGlossMap
+      material: {instanceID: 0}
+      baseUID: 679316574
     - shaderProp: _ParallaxMap
       material: {instanceID: 0}
       baseUID: 739419823
@@ -127,7 +129,7 @@ SubstanceImporter:
       textureWidth: 512
       textureHeight: 512
       textureFormat: 0
-      loadingBehavior: 3
+      loadingBehavior: 1
   deletedPrototypes: []
   userData: 
   assetBundleName: 
