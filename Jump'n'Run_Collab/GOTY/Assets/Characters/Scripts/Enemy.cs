@@ -24,7 +24,14 @@ public abstract class Enemy : MonoBehaviour {
 
         set{
             hp -= value;
+            if (hp <= 0)
+                Kill();
         }
+    }
+
+    public void Kill()
+    {
+        Destroy(gameObject);
     }
 
     public void Start()
