@@ -55,6 +55,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             public bool airControl; // can the user control the direction that is being moved in the air
             public bool IsDoubleJumpPossible = true;
             public GameObject spawnPoint;
+            public int timeReverseSize = 200;
         }
 
         public UnityEvent onUpdate;
@@ -71,7 +72,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private float m_YRotation;
         private Vector3 m_GroundContactNormal, m_Airspeed;
         private Quaternion m_AirDirection;
-        private bool m_Jump, m_PreviouslyGrounded, m_Jumping, m_IsGrounded, m_DoubleJumpReady, m_SlowTime, m_ChangeTimeScale;
+        private CircleBuffer m_CircleBuffer;
+        private bool m_Jump, m_PreviouslyGrounded, m_Jumping, m_IsGrounded, m_DoubleJumpReady, m_SlowTime, m_ChangeTimeScale, m_ReverseTime;
 
         private int m_hp;
 
@@ -129,11 +131,22 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_Capsule = GetComponent<CapsuleCollider>();
             m_DoubleJumpReady = true;
             mouseLook.Init (transform, cam.transform);
+            m_CircleBuffer = new CircleBuffer(advancedSettings.timeReverseSize);
         }
 
 
         private void Update()
         {
+            if (Input.GetButton("Ability2"))
+            {
+                m_ReverseTime = true;
+                return;
+            }
+            else
+            {
+                m_ReverseTime = false;
+            }
+
             RotateView();
 
             if (Input.GetButtonDown("Jump"))
@@ -159,6 +172,19 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         private void FixedUpdate()
         {
+
+            if (m_ReverseTime)
+            {
+                Vector3 pos;
+                Quaternion rot;
+                if(m_CircleBuffer.Pop(out pos, out rot))
+                {
+                    transform.position = pos;
+                    transform.rotation = rot;
+                    m_RigidBody.Sleep();
+                    return;
+                }
+            }
 
             if (m_ChangeTimeScale)
             {
@@ -237,6 +263,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 }
             }
             m_Jump = false;
+
+            m_CircleBuffer.Push(transform.position, transform.rotation);
         }
 
 
