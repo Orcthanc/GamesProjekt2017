@@ -51,6 +51,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             public float groundCheckDistance = 0.01f; // distance for checking if the controller is grounded ( 0.01f seems to work best for this )
             public float stickToGroundHelperDistance = 0.5f; // stops the character
             public float slowDownRate = 20f; // rate at which the controller comes to a stop when there is no input
+            public float airRotationSpeed = 100;
             public bool airControl; // can the user control the direction that is being moved in the air
             public bool IsDoubleJumpPossible = true;
             public GameObject spawnPoint;
@@ -67,7 +68,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private Rigidbody m_RigidBody;
         private CapsuleCollider m_Capsule;
         private float m_YRotation;
-        private Vector3 m_GroundContactNormal;
+        private Vector3 m_GroundContactNormal, m_Airspeed;
+        private Quaternion m_AirDirection;
         private bool m_Jump, m_PreviouslyGrounded, m_Jumping, m_IsGrounded, m_DoubleJumpReady, m_SlowTime, m_ChangeTimeScale;
 
 
@@ -157,14 +159,27 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 // always move along the camera forward as it is the direction that it being aimed at
                 Vector3 desiredMove = cam.transform.forward*input.y + cam.transform.right*input.x;
                 desiredMove = Vector3.ProjectOnPlane(desiredMove, m_GroundContactNormal).normalized;
-
-                desiredMove.x = desiredMove.x*movementSettings.Speed;
-                desiredMove.z = desiredMove.z*movementSettings.Speed;
-                desiredMove.y = desiredMove.y*movementSettings.Speed;
-                if (m_RigidBody.velocity.sqrMagnitude <
-                    (movementSettings.Speed*movementSettings.Speed))
+                if (m_IsGrounded)
                 {
-                    m_RigidBody.AddForce(desiredMove*SlopeMultiplier(), ForceMode.Impulse);
+                    desiredMove.x = desiredMove.x * movementSettings.Speed;
+                    desiredMove.z = desiredMove.z * movementSettings.Speed;
+                    desiredMove.y = desiredMove.y * movementSettings.Speed;
+                    if (m_RigidBody.velocity.sqrMagnitude <
+                    (movementSettings.Speed * movementSettings.Speed))
+                    {
+                        m_RigidBody.AddForce(desiredMove * SlopeMultiplier(), ForceMode.Impulse);
+                    }
+                }
+                else
+                {
+                    desiredMove.x = (m_AirDirection * m_Airspeed).x;
+                    desiredMove.y = (m_AirDirection * m_Airspeed).y;
+                    desiredMove.z = (m_AirDirection * m_Airspeed).x;
+                    if (m_RigidBody.velocity.sqrMagnitude <
+                    (m_Airspeed.magnitude * m_Airspeed.magnitude))
+                    {
+                        m_RigidBody.AddForce(desiredMove * SlopeMultiplier(), ForceMode.Impulse);
+                    }
                 }
             }
 
@@ -177,6 +192,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
                     m_RigidBody.drag = 0f;
                     m_RigidBody.velocity = new Vector3(m_RigidBody.velocity.x, 0f, m_RigidBody.velocity.z);
                     m_RigidBody.AddForce(new Vector3(0f, movementSettings.JumpForce, 0f), ForceMode.Impulse);
+                    m_Airspeed = new Vector3(m_RigidBody.velocity.x, 0f, m_RigidBody.velocity.z);
+                    m_AirDirection = Quaternion.Euler(0, transform.eulerAngles.y, 0);
                     m_Jumping = true;
                 }
 
@@ -247,11 +264,29 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
             mouseLook.LookRotation (transform, cam.transform);
 
-            if (m_IsGrounded || advancedSettings.airControl)
+            if (m_IsGrounded)
             {
                 // Rotate the rigidbody velocity to match the new direction that the character is looking
                 Quaternion velRotation = Quaternion.AngleAxis(transform.eulerAngles.y - oldYRotation, Vector3.up);
                 m_RigidBody.velocity = velRotation * m_RigidBody.velocity;
+            }
+            else if (advancedSettings.airControl)
+            {
+                if (Input.GetAxisRaw("Horizontal") > 0)
+                {
+                    if (Quaternion.Angle(m_AirDirection, transform.rotation) < 45)
+                    {
+                        m_RigidBody.velocity = Quaternion.AngleAxis(Input.GetAxis("Horizontal") * advancedSettings.airRotationSpeed * Time.deltaTime, Vector3.up) * m_RigidBody.velocity;
+                    }
+                }
+                else if (Input.GetAxisRaw("Horizontal") < 0)
+                {
+                    if (Quaternion.Angle(transform.rotation, m_AirDirection) < 45)
+                    {
+                        m_RigidBody.velocity = Quaternion.AngleAxis(Input.GetAxis("Horizontal") * advancedSettings.airRotationSpeed * Time.deltaTime, Vector3.up) * m_RigidBody.velocity;
+                    }
+                }
+                m_AirDirection = Quaternion.LookRotation(m_RigidBody.velocity);
             }
         }
 

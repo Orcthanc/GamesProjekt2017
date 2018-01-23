@@ -1,23 +1,23 @@
 fileFormatVersion: 2
-guid: 9eeef2d7529d34736b95f95459c0dbe3
-timeCreated: 1516721733
+guid: cdb8b3969badd4e228f2a5e2f38da5cd
+timeCreated: 1516722066
 licenseType: Free
 SubstanceImporter:
   externalObjects: {}
   serializedVersion: 5
   materialInstances:
   - serializedVersion: 16
-    name: MoonStone1
+    name: Metal
     prototypeName: New_Graph
     shaderName: 
-    shader: {fileID: 45, guid: 0000000000000000f000000000000000, type: 0}
+    shader: {fileID: 47, guid: 0000000000000000f000000000000000, type: 0}
     shaderKeywords: _NORMALMAP _PARALLAXMAP
     renderQueue: -1
     lightmapFlags: 4
     inputs:
     - name: $randomseed
       value:
-        scalar[0]: 3911
+        scalar[0]: 0
         scalar[1]: 0
         scalar[2]: 0
         scalar[3]: 0
@@ -26,10 +26,10 @@ SubstanceImporter:
     materialInformation:
       serializedVersion: 5
       offset: {x: 0, y: 0}
-      scale: {x: 1, y: 1}
+      scale: {x: 10, y: 10}
       generateMipmaps: 1
       generateAllOutputs: 0
-      animationUpdateRate: 0
+      animationUpdateRate: 42
     materialProperties:
       serializedVersion: 3
       texEnvs:
@@ -54,6 +54,10 @@ SubstanceImporter:
           scale: {x: 1, y: 1}
           offset: {x: 0, y: 0}
       - _MainTex:
+          texture: {instanceID: 0}
+          scale: {x: 1, y: 1}
+          offset: {x: 0, y: 0}
+      - _MetallicGlossMap:
           texture: {instanceID: 0}
           scale: {x: 1, y: 1}
           offset: {x: 0, y: 0}
@@ -91,22 +95,22 @@ SubstanceImporter:
       - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
       - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
     textureParameters:
-    - name: MoonStone1_basecolor
+    - name: Metal_basecolor
       alphaSource: 6
       filterMode: 1
       aniso: 1
       wrapMode: 0
-    - name: MoonStone1_normal
+    - name: Metal_normal
       alphaSource: 0
       filterMode: 1
       aniso: 1
       wrapMode: 0
-    - name: MoonStone1_metallic
+    - name: Metal_metallic
       alphaSource: 7
       filterMode: 1
       aniso: 1
       wrapMode: 0
-    - name: MoonStone1_height
+    - name: Metal_height
       alphaSource: 0
       filterMode: 1
       aniso: 1
@@ -118,6 +122,9 @@ SubstanceImporter:
     - shaderProp: _BumpMap
       material: {instanceID: 0}
       baseUID: 679316570
+    - shaderProp: _MetallicGlossMap
+      material: {instanceID: 0}
+      baseUID: 679316574
     - shaderProp: _ParallaxMap
       material: {instanceID: 0}
       baseUID: 739419823

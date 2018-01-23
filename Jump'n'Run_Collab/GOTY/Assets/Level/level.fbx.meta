@@ -148,6 +148,9 @@ ModelImporter:
     2100082: Material.124
     2100084: Material.126
     2100086: LevelMaterial
+    2100088: Wall
+    2100090: No Name
+    2100092: Platform
     2300000: Cube.000
     2300002: Cube.001
     2300004: Cube.002
@@ -301,6 +304,16 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: LevelMaterial
     second: {fileID: 1241579121, guid: 77e4df321d32144ef912a61d1591d8c9, type: 3}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Platform
+    second: {fileID: 1155672964, guid: cdb8b3969badd4e228f2a5e2f38da5cd, type: 3}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Wall
+    second: {fileID: 1155672964, guid: cdb8b3969badd4e228f2a5e2f38da5cd, type: 3}
   materials:
     importMaterials: 1
     materialName: 0
