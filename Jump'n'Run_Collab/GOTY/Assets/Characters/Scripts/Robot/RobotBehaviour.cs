@@ -187,13 +187,12 @@ public class RobotBehaviour : Enemy
     {
         // bit shift the index of the layer to get a bit mask 
         int layermask = 1 << 9;
-        int othermask = 0xFFFF ^ layermask;
 
         RaycastHit hit;
 
         if (Physics.Raycast(transform.position, player.position - transform.position, out hit, viewDistance, layermask))
         {
-            Debug.DrawRay(eyes.position, player.position - eyes.position, Color.red, 1f);
+            Debug.DrawRay(eyes.position, hit.point - eyes.position, Color.red, 1f);
             if (hit.collider.gameObject.layer.Equals(9))
                 if (Mathf.Abs(Vector3.Angle(
                         from: transform.forward,
