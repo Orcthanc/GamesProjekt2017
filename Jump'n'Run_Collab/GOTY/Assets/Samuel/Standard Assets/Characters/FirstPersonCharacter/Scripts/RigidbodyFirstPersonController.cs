@@ -58,6 +58,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         }
 
         public UnityEvent onUpdate;
+        public UnityEvent onDeath;
 
         public Camera cam;
         public MovementSettings movementSettings = new MovementSettings();
@@ -71,6 +72,31 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private Vector3 m_GroundContactNormal, m_Airspeed;
         private Quaternion m_AirDirection;
         private bool m_Jump, m_PreviouslyGrounded, m_Jumping, m_IsGrounded, m_DoubleJumpReady, m_SlowTime, m_ChangeTimeScale;
+
+        private int m_hp;
+
+        /// <summary>
+        /// Gets remaining hp.
+        /// The setter is used to apply damage
+        /// </summary>
+        public int Damage
+        {
+            get { return m_hp; }
+            set {
+                m_hp -= value;
+                if(m_hp < 0)
+                {
+                    onDeath.Invoke();
+                    Die();
+                }
+            }
+        }
+
+        public void Die()
+        {
+            //TODO
+            Debug.Log("Rip Player");
+        }
 
 
         public Vector3 Velocity
