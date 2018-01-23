@@ -87,11 +87,8 @@ public class FlyingRobotBehaviour : Enemy {
                         to: hit.point - transform.position) 
                         - 180) < 90)
                 {
-                    Debug.Log(Mathf.Abs(Vector3.Angle(from: transform.forward, to: hit.point - transform.position)- 180));
                     return true;
                 }
-
-            Debug.Log(Mathf.Abs(Vector3.Angle(from: transform.forward, to: hit.point - transform.position) - 180));
         }
         return false;
     }
