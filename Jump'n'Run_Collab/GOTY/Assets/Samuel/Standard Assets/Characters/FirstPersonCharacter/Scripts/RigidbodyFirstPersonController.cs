@@ -177,10 +177,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
             {
                 Vector3 pos;
                 Quaternion rot;
-                if(m_CircleBuffer.Pop(out pos, out rot))
+                Quaternion camRot;
+                if(m_CircleBuffer.Pop(out pos, out rot, out camRot))
                 {
                     transform.position = pos;
                     transform.rotation = rot;
+                    cam.transform.rotation = camRot;
                     m_RigidBody.Sleep();
                     return;
                 }
@@ -264,7 +266,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
             m_Jump = false;
 
-            m_CircleBuffer.Push(transform.position, transform.rotation);
+            m_CircleBuffer.Push(transform.position, transform.rotation, cam.transform.rotation);
         }
 
 

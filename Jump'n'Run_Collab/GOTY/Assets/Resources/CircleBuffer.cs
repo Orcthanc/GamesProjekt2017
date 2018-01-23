@@ -6,6 +6,7 @@ public class CircleBuffer {
 
     Vector3[] posBuffer;
     Quaternion[] dirBuffer;
+    Quaternion[] camDirBuffer;
 
     int lastEl = 0;
     int firstEl = 0;
@@ -15,26 +16,29 @@ public class CircleBuffer {
     {
         posBuffer = new Vector3[size];
         dirBuffer = new Quaternion[size];
+        camDirBuffer = new Quaternion[size];
         this.size = size;
     }
 
-    public void Push(Vector3 vector3, Quaternion quaternion)
+    public void Push(Vector3 vector3, Quaternion quaternion, Quaternion cam)
     {
         lastEl = (++lastEl % size);
         posBuffer[lastEl] = vector3;
         dirBuffer[lastEl] = quaternion;
+        camDirBuffer[lastEl] = cam;
         if(lastEl == firstEl)
         {
             firstEl = ++firstEl % size;
         }
     }
 
-    public bool Pop(out Vector3 vector3, out Quaternion quaternion)
+    public bool Pop(out Vector3 vector3, out Quaternion quaternion, out Quaternion camDir)
     {
         if(lastEl == firstEl)
         {
             vector3 = Vector3.forward;
             quaternion = Quaternion.identity;
+            camDir = Quaternion.identity;
             return false;
         }
         else
@@ -42,6 +46,7 @@ public class CircleBuffer {
             Debug.Log(lastEl);
             vector3 = posBuffer[lastEl];
             quaternion = dirBuffer[lastEl];
+            camDir = camDirBuffer[lastEl];
             lastEl = (lastEl + size - 1) % size;
             return true;
         }
