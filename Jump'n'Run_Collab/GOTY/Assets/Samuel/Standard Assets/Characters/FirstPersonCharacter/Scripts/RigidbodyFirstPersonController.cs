@@ -73,7 +73,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private Vector3 m_GroundContactNormal, m_Airspeed;
         private Quaternion m_AirDirection;
         private CircleBuffer m_CircleBuffer;
-        private bool m_Jump, m_PreviouslyGrounded, m_Jumping, m_IsGrounded, m_DoubleJumpReady, m_SlowTime, m_ChangeTimeScale, m_ReverseTime;
+        private bool m_Jump, m_PreviouslyGrounded, m_Jumping, m_IsGrounded, m_DoubleJumpReady, m_SlowTime, m_ChangeTimeScale, m_ReverseTime, m_PrevTimeReverse;
 
         private int m_hp;
 
@@ -140,10 +140,15 @@ namespace UnityStandardAssets.Characters.FirstPerson
             if (Input.GetButton("Ability2"))
             {
                 m_ReverseTime = true;
+                m_PrevTimeReverse = true;
                 return;
             }
             else
             {
+                if (!m_ReverseTime)
+                {
+                    m_PrevTimeReverse = false;
+                }
                 m_ReverseTime = false;
             }
 
@@ -318,7 +323,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             // get the rotation before it's changed
             float oldYRotation = transform.eulerAngles.y;
 
-            mouseLook.LookRotation (transform, cam.transform);
+            mouseLook.LookRotation (transform, cam.transform, m_PrevTimeReverse);
 
             if (m_IsGrounded)
             {
@@ -342,7 +347,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
                         m_RigidBody.velocity = Quaternion.AngleAxis(Input.GetAxis("Horizontal") * advancedSettings.airRotationSpeed * Time.deltaTime, Vector3.up) * m_RigidBody.velocity;
                     }
                 }
-                m_AirDirection = Quaternion.LookRotation(m_RigidBody.velocity);
+                if (!m_PrevTimeReverse)
+                    m_AirDirection = Quaternion.LookRotation(m_RigidBody.velocity);
+                else
+                    m_Airspeed = new Vector3(0, 0, 0);
             }
         }
 

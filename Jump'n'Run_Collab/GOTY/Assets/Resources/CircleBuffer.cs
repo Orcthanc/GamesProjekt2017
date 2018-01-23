@@ -12,6 +12,14 @@ public class CircleBuffer {
     int firstEl = 0;
     int size;
 
+    public int Size
+    {
+        get
+        {
+            return size;
+        }
+    }
+
     public CircleBuffer (int size)
     {
         posBuffer = new Vector3[size];
@@ -43,13 +51,22 @@ public class CircleBuffer {
         }
         else
         {
-            Debug.Log(lastEl);
             vector3 = posBuffer[lastEl];
             quaternion = dirBuffer[lastEl];
             camDir = camDirBuffer[lastEl];
             lastEl = (lastEl + size - 1) % size;
             return true;
         }
+    }
+
+    public float getRemainingPct()
+    {
+        return ((float)(getRemainingSize())) / ((float)(size));
+    }
+
+    public int getRemainingSize()
+    {
+        return (lastEl - size + 500) % size;
     }
 
 }
