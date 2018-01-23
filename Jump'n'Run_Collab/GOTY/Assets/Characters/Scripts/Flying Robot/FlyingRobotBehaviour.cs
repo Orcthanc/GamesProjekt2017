@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class FlyingRobotBehaviour : Enemy {
 
-    public GameObject player;
+    private GameObject player;
     public float speed = 2;
     public float rotationSpeed = 100;
     public float distanceToPlayer = 15;
@@ -23,6 +23,7 @@ public class FlyingRobotBehaviour : Enemy {
         target = new GameObject().transform;
         speed *= Mathf.Sign(Random.Range(-1, 1));
         anim = GetComponentInChildren<Animation>();
+        player = GameObject.FindWithTag("Player");
     }
 
     /// <summary>
