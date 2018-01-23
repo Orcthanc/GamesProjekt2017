@@ -10,6 +10,7 @@ public class FlyingRobotBehaviour : Enemy {
     public float rotationSpeed = 100;
     public float distanceToPlayer = 15;
     public float inaccuracy = 10;
+    public float viewDist = 50;
     public GameObject projectile;
     private Transform target;
     private Animation anim;
@@ -59,7 +60,40 @@ public class FlyingRobotBehaviour : Enemy {
     {
         if (!anim.isPlaying)
             anim.Play("Idle");
-        return true;
+        return SeesPlayer();
+    }
+
+    /// <summary>
+    /// Checks if the player is within line of sight
+    /// </summary>
+    /// <returns>true, if the player is in sight</returns>
+    bool SeesPlayer()
+    {
+        // bit shift the index of the layer to get a bit mask 
+        int layermask = 1 << 9;
+        int othermask = 0xFFFF ^ layermask;
+
+        RaycastHit hit;
+
+        Debug.Log(!Physics.Raycast(transform.position, player.transform.position - transform.position, viewDist, othermask));
+        Debug.Log(Physics.Raycast(transform.position, player.transform.position - transform.position, out hit, viewDist, layermask));
+
+        if (Physics.Raycast(transform.position, player.transform.position - transform.position, out hit, viewDist, layermask))
+        {
+            Debug.DrawRay(transform.position, player.transform.position - transform.position, Color.red, 1f);
+            if(hit.collider.gameObject.layer.Equals(9))
+                if(Mathf.Abs(Vector3.Angle(
+                        from: transform.forward,
+                        to: hit.point - transform.position) 
+                        - 180) < 90)
+                {
+                    Debug.Log(Mathf.Abs(Vector3.Angle(from: transform.forward, to: hit.point - transform.position)- 180));
+                    return true;
+                }
+
+            Debug.Log(Mathf.Abs(Vector3.Angle(from: transform.forward, to: hit.point - transform.position) - 180));
+        }
+        return false;
     }
 
     /// <summary>

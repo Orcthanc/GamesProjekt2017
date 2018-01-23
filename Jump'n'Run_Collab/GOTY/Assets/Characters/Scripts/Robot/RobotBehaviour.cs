@@ -189,11 +189,22 @@ public class RobotBehaviour : Enemy
         int layermask = 1 << 9;
         int othermask = 0xFFFF ^ layermask;
 
-        if(!Physics.Raycast(eyes.position, player.position - eyes.position, viewDistance, othermask)
-           && Physics.Raycast(eyes.position, player.position - eyes.position, viewDistance, layermask)){
-            
-            Debug.DrawRay(eyes.position, player.position - eyes.position,Color.red,1f);
-            return true;
+        RaycastHit hit;
+
+        if (Physics.Raycast(transform.position, player.position - transform.position, out hit, viewDistance, layermask))
+        {
+            Debug.DrawRay(eyes.position, player.position - eyes.position, Color.red, 1f);
+            if (hit.collider.gameObject.layer.Equals(9))
+                if (Mathf.Abs(Vector3.Angle(
+                        from: transform.forward,
+                        to: hit.point - transform.position)
+                        - 180) < 90)
+                {
+                    Debug.Log(Mathf.Abs(Vector3.Angle(from: eyes.forward, to: hit.point - eyes.position) - 180));
+                    return true;
+                }
+
+            Debug.Log(Mathf.Abs(Vector3.Angle(from: eyes.forward, to: hit.point - eyes.position) - 180));
         }
         return false;
     }
