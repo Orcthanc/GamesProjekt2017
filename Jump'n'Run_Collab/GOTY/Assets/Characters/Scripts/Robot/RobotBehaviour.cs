@@ -74,6 +74,9 @@ public class RobotBehaviour : Enemy
         updateLastSeen();
     }
 
+    /// <summary>
+    /// Shoots in the direction of the player...
+    /// </summary>
     public override void Shoot()
     {
         if (aiming)
@@ -107,6 +110,11 @@ public class RobotBehaviour : Enemy
         }
     }
 
+    /// <summary>
+    /// Draws the shot animation
+    /// </summary>
+    /// <param name="target">Target of the animation</param>
+    /// <returns>Some thing, used for Unitys coroutine</returns>
     private IEnumerator Shoot(Vector3 target)
     {
         shot.SetPosition(0, muzzle.position);
@@ -116,17 +124,27 @@ public class RobotBehaviour : Enemy
         shot.enabled = false;
     }
 
+    /// <summary>
+    /// Used to get a random Multiplier for the spread of the shot
+    /// </summary>
+    /// <returns>The multiplier for the spread of a shot</returns>
     public float RandomSpread(){
         return Random.Range(-inaccuracyModifier, inaccuracyModifier);
     }
 
+    /// <summary>
+    /// Starts the "Walk" animation
+    /// </summary>
     public void setWalk()
     {
         aiming = false;
         anim.SetBool("Walk", true);
         anim.SetBool("Aim", false);
     }
-
+    
+    /// <summary>
+    /// Starts the "Aim" animation
+    /// </summary>
     public void setAim()
     {
         aiming = true;
@@ -134,24 +152,27 @@ public class RobotBehaviour : Enemy
         anim.SetBool("Aim", true);
     }
 
+    /// <summary>
+    /// Unimplemented in the current version of the script
+    /// </summary>
+    /// <returns>Always false...</returns>
     public override bool CheckAgro()
     {
-        if (lastSeen == null)
-        {
-            return false;
-        }
-        if (SeesPlayer() || Distance(lastSeen) > 0.5)
-        {
-            return true;
-        }
         return false;
     }
 
+    /// <summary>
+    /// Does nothing in this script...
+    /// </summary>
     public override void Move()
     {
 
     }
 
+    /// <summary>
+    /// Checks if the player is within line of sight
+    /// </summary>
+    /// <returns>true, if the player is in sight</returns>
     bool SeesPlayer()
     {
         // bit shift the index of the layer to get a bit mask 
@@ -167,12 +188,24 @@ public class RobotBehaviour : Enemy
         return false;
     }
 
+    /// <summary>
+    /// Updates lastSeen to the position of the player, if and only if SeesPlayer() returns true
+    /// </summary>
     public void updateLastSeen(){
         if(SeesPlayer()){
             lastSeen = player;
         }       
     }
 
+    /// <summary>
+    /// Used to find a child of a transform by name
+    /// 
+    /// Example Usage:
+    /// Find(transform, "Eyes");
+    /// </summary>
+    /// <param name="transform">Transform of wich the desired transform is a child of</param>
+    /// <param name="name">Name of the child</param>
+    /// <returns>The child</returns>
     public Transform Find(Transform transform,string name){
         if(transform.childCount == 0){
             return null;
@@ -195,12 +228,54 @@ public class RobotBehaviour : Enemy
     /*
      * Oof
      */
-    void LookAt(Transform target) { LookAt(target.position); }
+
+    /// <summary>
+    /// Shortcut for LookAt(target.position);
+    /// </summary>
+    /// <param name="target"></param>
+    void LookAt(Transform target) {
+        LookAt(target.position);
+    }
+
+    /// <summary>
+    /// Shortcut for gameObject.transform.LookAt(new Vector3 (target.x, gameObject.transform.position.y,target.z)); 
+    /// </summary>
+    /// <param name="target"></param>
     void LookAt(Vector3 target) { 
         gameObject.transform.LookAt(new Vector3 (target.x, gameObject.transform.position.y,target.z)); 
     }
-    void Destinate(Vector3 target) { agent.destination = target; }
-    void Destinate(Transform target) { agent.destination = target.position; }
-    float Distance(Transform target) { return Distance(target.position);}
-    float Distance (Vector3 target) { return Vector3.Distance(gameObject.transform.position, target);}
+
+    /// <summary>
+    /// Shortcut for agent.destination = target;
+    /// </summary>
+    /// <param name="target"></param>
+    void Destinate(Vector3 target) {
+        agent.destination = target;
+    }
+
+    /// <summary>
+    /// Shortcut for agent.destination = target.position;
+    /// </summary>
+    /// <param name="target"></param>
+    void Destinate(Transform target) {
+        agent.destination = target.position;
+    }
+
+    /// <summary>
+    /// Shortcut for return Distance(target.position);
+    /// </summary>
+    /// <param name="target"></param>
+    /// <returns></returns>
+    float Distance(Transform target) {
+        return Distance(target.position);
+    }
+
+    /// <summary>
+    /// Shortcut for return Vector3.Distance(gameObject.transform.position, target);
+    /// </summary>
+    /// <param name="target"></param>
+    /// <returns></returns>
+    float Distance (Vector3 target) {
+        return Vector3.Distance(gameObject.transform.position, target);
+    }
 }
