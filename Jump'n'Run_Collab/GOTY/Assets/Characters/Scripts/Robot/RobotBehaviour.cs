@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
-using System.Security;
-using NUnit.Framework.Constraints;
 using System.Collections;
 
 public class RobotBehaviour : Enemy
@@ -16,6 +14,7 @@ public class RobotBehaviour : Enemy
     private LineRenderer shot;
     private float preferedDistance;
     private bool aiming;
+    private bool sees;
 
     public float inaccuracyModifier;
     public float viewDistance;
@@ -33,13 +32,13 @@ public class RobotBehaviour : Enemy
         muzzle = Find(transform,"Muzzle");
         shot = GetComponent<LineRenderer>();
         preferedDistance = Random.Range(shootDistance / 2, shootDistance);
-
+        updateLastSeen();
 
         if (eyes == null)
             throw new System.Exception(gameObject.ToString() + " says: Eyes not found, how am I supposed to see ?!?");
 
         if (muzzle == null)
-            throw new System.Exception(gameObject.ToString() + " says: Muzzle not found, how am I supposed exterminate ?!?");
+            throw new System.Exception(gameObject.ToString() + " says: Muzzle not found, how am I supposed to exterminate ?!?");
         
     }
 
@@ -47,8 +46,8 @@ public class RobotBehaviour : Enemy
 
     public new void Update()
     {
+        shotCooldown -= Time.deltaTime;
         Debug.DrawLine(muzzle.position, player.position);
-        base.Update();
 
         anim.Update(Time.deltaTime);
 
@@ -61,23 +60,35 @@ public class RobotBehaviour : Enemy
 
         if (agent.speed > 0.0f)
         {
+            Debug.Log(agent.speed);
             setWalk();
         }
 
 
         if (Distance(player) < preferedDistance)
         {
-            Destinate(gameObject.transform);
-            setAim();
-            LookAt(player);
-        }
+            if(sees){
+                Destinate(gameObject.transform);
+                setAim();
+                LookAt(player);
 
+                if (shotCooldown < 0)
+                {
+                    shotCooldown += standardShotCooldown;
+                    Shoot();
+                }
+            }
+        }
+        else{
+
+        }
         updateLastSeen();
     }
 
     public override void Shoot()
     {
-        if (aiming)
+        Debug.Log(aiming + " " + sees);
+        if (aiming && sees)
         {
             int layermask = 1 << 9;
             int othermask = 0xFFFF ^ layermask;
@@ -90,11 +101,11 @@ public class RobotBehaviour : Enemy
 
             if (Physics.Raycast(muzzle.position, dir, out hitInfo, shootDistance))
             {
-                Debug.Log(hitInfo.distance);
                 StartCoroutine(Shoot((dir / 10 * hitInfo.distance)));
             }
-            StartCoroutine(Shoot(muzzle.position + (dir * shootDistance)));
-
+            else
+                StartCoroutine(Shoot(muzzle.position + (dir * shootDistance)));
+            
 
             if (!Physics.Raycast(muzzle.position, dir, shootDistance, othermask)
                 && Physics.Raycast(muzzle.position, dir, shootDistance, layermask))
@@ -104,6 +115,11 @@ public class RobotBehaviour : Enemy
 
             anim.SetTrigger("Shoot");
         }
+        updateLastSeen();
+    }
+
+    public override bool CheckAgro(){
+        return false;
     }
 
     private IEnumerator Shoot(Vector3 target)
@@ -121,6 +137,7 @@ public class RobotBehaviour : Enemy
 
     public void setWalk()
     {
+        Debug.Log("SetWalk");
         aiming = false;
         anim.SetBool("Walk", true);
         anim.SetBool("Aim", false);
@@ -128,22 +145,10 @@ public class RobotBehaviour : Enemy
 
     public void setAim()
     {
+        Debug.Log("SetAim");
         aiming = true;
         anim.SetBool("Walk", false);
         anim.SetBool("Aim", true);
-    }
-
-    public override bool CheckAgro()
-    {
-        if (lastSeen == null)
-        {
-            return false;
-        }
-        if (SeesPlayer() || Distance(lastSeen) > 0.5)
-        {
-            return true;
-        }
-        return false;
     }
 
     public override void Move()
@@ -168,8 +173,11 @@ public class RobotBehaviour : Enemy
 
     public void updateLastSeen(){
         if(SeesPlayer()){
+            sees = true;
             lastSeen = player;
-        }       
+            return;
+        }
+        sees = false;
     }
 
     public Transform Find(Transform transform,string name){
