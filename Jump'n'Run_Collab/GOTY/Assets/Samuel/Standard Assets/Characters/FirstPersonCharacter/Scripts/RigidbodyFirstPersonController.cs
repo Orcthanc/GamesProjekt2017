@@ -198,8 +198,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 anim.Play("Shoot");
                 heat += heatbuildup;
                 fireDelay = 0.5f;
-                Vector3 direction = HelperMethods.scatter(transform.rotation * cam.transform.rotation, 0) * Vector3.forward; 
-                Debug.Log(direction);
+                Vector3 direction = cam.transform.rotation * Vector3.forward; 
+                Debug.DrawRay(transform.position, direction * maxRange, Color.red);
                 RaycastHit hitInfo;
                 if (Physics.Raycast(transform.position, direction, out hitInfo, maxRange))
                 {
