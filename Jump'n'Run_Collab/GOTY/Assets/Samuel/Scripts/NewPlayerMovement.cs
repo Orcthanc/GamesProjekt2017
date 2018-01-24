@@ -44,14 +44,9 @@ public class NewPlayerMovement : MonoBehaviour {
     [Serializable]
     public class AdvancedSettings
     {
-        public float groundCheckDistance = 0.01f; // distance for checking if the controller is grounded ( 0.01f seems to work best for this )
-        public float stickToGroundHelperDistance = 0.5f; // stops the character
-        public float slowDownRate = 20f; // rate at which the controller comes to a stop when there is no input
-        public float airRotationSpeed = 100;
-        public bool airControl; // can the user control the direction that is being moved in the air
-        public bool IsDoubleJumpPossible = true;
+        public float groundCheckDistance = 0.01f;
         public GameObject spawnPoint;
-        public int timeReverseSize = 200;
+        public int timeReverseSize = 1000;
         public float gravity = 10f;
     }
 
@@ -63,11 +58,9 @@ public class NewPlayerMovement : MonoBehaviour {
 
     private CharacterController charController;
     private CapsuleCollider m_Capsule;
-    private float m_YRotation;
-    private Vector3 m_GroundContactNormal, m_Airspeed, m_YVel;
-    private Quaternion m_AirDirection;
+    private Vector3 m_YVel;
     private CircleBuffer m_CircleBuffer;
-    private bool m_Jump, m_PreviouslyGrounded, m_Jumping, m_IsGrounded, m_DoubleJumpReady, m_SlowTime, m_ChangeTimeScale, m_ReverseTime, m_PrevTimeReverse;
+    private bool m_DoubleJumpReady;
 
     private int m_hp;
 
@@ -92,17 +85,6 @@ public class NewPlayerMovement : MonoBehaviour {
     {
         //TODO
         Debug.Log("Rip Player");
-    }
-
-
-    public bool Grounded
-    {
-        get { return m_IsGrounded; }
-    }
-
-    public bool Jumping
-    {
-        get { return m_Jumping; }
     }
 
     public bool Running
@@ -130,6 +112,7 @@ public class NewPlayerMovement : MonoBehaviour {
         mouseLook.Init(transform, cam.transform);
         charController = GetComponent<CharacterController>();
         m_Capsule = GetComponent<CapsuleCollider>();
+        m_CircleBuffer = new CircleBuffer(1000);
 	}
 	
 	// Update is called once per frame
@@ -137,17 +120,16 @@ public class NewPlayerMovement : MonoBehaviour {
 
         if (Input.GetButton("Ability2"))
         {
-            m_ReverseTime = true;
-            m_PrevTimeReverse = true;
-            return;
-        }
-        else
-        {
-            if (!m_ReverseTime)
+            Vector3 pos;
+            Quaternion rot;
+            Quaternion camRot;
+            if(m_CircleBuffer.Pop(out pos, out rot, out camRot))
             {
-                m_PrevTimeReverse = false;
+                transform.position = pos;
+                transform.rotation = rot;
+                cam.transform.rotation = camRot;
             }
-            m_ReverseTime = false;
+            return;
         }
 
         Debug.Log("test");
@@ -162,6 +144,7 @@ public class NewPlayerMovement : MonoBehaviour {
         Debug.Log(" a " + CheckGround());
         if (CheckGround())
         {
+            m_DoubleJumpReady = true;
             Debug.Log("a");
             if (m_YVel.y < 0)
             {
@@ -176,7 +159,15 @@ public class NewPlayerMovement : MonoBehaviour {
         {
             Debug.Log("b");
             m_YVel += -Vector3.up * Time.deltaTime * 0.1f * advancedSettings.gravity;
+
+            if (Input.GetButtonDown("Jump") && m_DoubleJumpReady)
+            {
+                m_DoubleJumpReady = false;
+                m_YVel = new Vector3(0, movementSettings.JumpForce, 0);
+            }
         }
+
+        m_CircleBuffer.Push(transform.position, transform.rotation, cam.transform.rotation);
 
     }
 
