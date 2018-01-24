@@ -159,12 +159,22 @@ public class NewPlayerMovement : MonoBehaviour {
         charController.Move(transform.rotation * new Vector3(input.x, 0, input.y) * Time.deltaTime * movementSettings.Speed);
         charController.Move(m_YVel);
 
+        Debug.Log(" a " + CheckGround());
         if (CheckGround())
         {
-            m_YVel = new Vector3(0, 0, 0);
+            Debug.Log("a");
+            if (m_YVel.y < 0)
+            {
+                m_YVel = new Vector3(0, 0, 0);
+            }
+            if (Input.GetButtonDown("Jump"))
+            {
+                m_YVel = new Vector3(0, movementSettings.JumpForce, 0);
+            }
         }
         else
         {
+            Debug.Log("b");
             m_YVel += -Vector3.up * Time.deltaTime * 0.1f * advancedSettings.gravity;
         }
 
@@ -172,6 +182,8 @@ public class NewPlayerMovement : MonoBehaviour {
 
     public bool CheckGround()
     {
+        Debug.DrawRay(transform.position, (-Vector3.up) * (m_Capsule.height / 2 + 0.1f));
+        Debug.Log((m_Capsule.height / 2 + 0.1f));
         if (Physics.Raycast(transform.position, -Vector3.up, m_Capsule.height / 2 + 0.1f))
         {
             return true;

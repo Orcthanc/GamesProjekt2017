@@ -608,11 +608,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4191441299849390, guid: 57dc19b8c56e14afca2d38691698d01c, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -1.1726198
+      value: -1.09
       objectReference: {fileID: 0}
     - target: {fileID: 4191441299849390, guid: 57dc19b8c56e14afca2d38691698d01c, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 1.97
+      value: 1.96
       objectReference: {fileID: 0}
     - target: {fileID: 4191441299849390, guid: 57dc19b8c56e14afca2d38691698d01c, type: 2}
       propertyPath: m_LocalPosition.z
@@ -647,6 +647,10 @@ Prefab:
         type: 2}
       propertyPath: onUpdate.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4193799457581530, guid: 57dc19b8c56e14afca2d38691698d01c, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 57dc19b8c56e14afca2d38691698d01c, type: 2}
