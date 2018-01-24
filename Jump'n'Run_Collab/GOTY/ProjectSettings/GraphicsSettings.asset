@@ -5,8 +5,8 @@ GraphicsSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 12
   m_Deferred:
-    m_Mode: 1
-    m_Shader: {fileID: 69, guid: 0000000000000000f000000000000000, type: 0}
+    m_Mode: 2
+    m_Shader: {fileID: 4800000, guid: 706eb54aa6dc13648b6c3a7f37deccf8, type: 3}
   m_DeferredReflections:
     m_Mode: 1
     m_Shader: {fileID: 74, guid: 0000000000000000f000000000000000, type: 0}
@@ -35,6 +35,9 @@ GraphicsSettings:
   - {fileID: 15106, guid: 0000000000000000f000000000000000, type: 0}
   - {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
   - {fileID: 10770, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 16000, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 16001, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 17000, guid: 0000000000000000f000000000000000, type: 0}
   m_PreloadedShaders: []
   m_SpritesDefaultMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000,
     type: 0}
