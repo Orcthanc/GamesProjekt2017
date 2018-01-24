@@ -130,6 +130,7 @@ public class NewPlayerMovement : MonoBehaviour {
         mouseLook.Init(transform, cam.transform);
         charController = GetComponent<CharacterController>();
         m_Capsule = GetComponent<CapsuleCollider>();
+        m_CircleBuffer = new CircleBuffer(1000);
 	}
 	
 	// Update is called once per frame
@@ -137,8 +138,15 @@ public class NewPlayerMovement : MonoBehaviour {
 
         if (Input.GetButton("Ability2"))
         {
-            m_ReverseTime = true;
-            m_PrevTimeReverse = true;
+            Vector3 pos;
+            Quaternion rot;
+            Quaternion camRot;
+            if(m_CircleBuffer.Pop(out pos, out rot, out camRot))
+            {
+                transform.position = pos;
+                transform.rotation = rot;
+                cam.transform.rotation = camRot;
+            }
             return;
         }
         else
@@ -184,6 +192,8 @@ public class NewPlayerMovement : MonoBehaviour {
                 m_YVel = new Vector3(0, movementSettings.JumpForce, 0);
             }
         }
+
+        m_CircleBuffer.Push(transform.position, transform.rotation, cam.transform.rotation);
 
     }
 

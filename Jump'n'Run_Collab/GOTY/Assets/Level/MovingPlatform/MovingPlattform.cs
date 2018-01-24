@@ -52,13 +52,11 @@ public class MovingPlattform : MonoBehaviour {
 
     void OnTriggerEnter(Collider coll)
     {
-        Debug.Log("testadsadasdasdasd");
         coll.transform.SetParent(transform);
     }
 
     void OnTriggerExit(Collider coll)
     {
-        Debug.Log("testadsadasdasdasd");
         coll.transform.SetParent(null);
     }
 }

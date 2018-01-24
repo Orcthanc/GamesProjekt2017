@@ -478,6 +478,11 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
         }
 
+        public float GetCircleBufferPct()
+        {
+            return m_CircleBuffer.getRemainingPct();
+        }
+
         public void Spawn()
         {
             transform.position = advancedSettings.spawnPoint.transform.position;
