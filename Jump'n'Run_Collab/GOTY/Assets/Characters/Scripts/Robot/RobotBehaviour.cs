@@ -32,7 +32,7 @@ public class RobotBehaviour : Enemy
         muzzle = Find(transform,"Muzzle");
         shot = GetComponent<LineRenderer>();
         preferedDistance = Random.Range(shootDistance / 2, shootDistance);
-        updateLastSeen();
+        //updateLastSeen();
 
         if (eyes == null)
             throw new System.Exception(gameObject.ToString() + " says: Eyes not found, how am I supposed to see ?!?");
@@ -60,7 +60,6 @@ public class RobotBehaviour : Enemy
 
         if (agent.speed > 0.00001f)
         {
-            Debug.Log(agent.speed);
             setWalk();
         } else {
             setAim();
@@ -94,7 +93,6 @@ public class RobotBehaviour : Enemy
     /// </summary>
     public override void Shoot()
     {
-        Debug.Log(aiming + " " + sees);
         if (aiming && sees)
         {
             int layermask = 1 << 9;
@@ -150,7 +148,6 @@ public class RobotBehaviour : Enemy
     /// <returns>The multiplier for the spread of a shot</returns>
     public float RandomSpread(){
         float spread = Random.Range(-inaccuracyModifier, inaccuracyModifier);
-        Debug.Log(spread);
         return spread;// Random.Range(-inaccuracyModifier, inaccuracyModifier);
     }
 
@@ -159,7 +156,6 @@ public class RobotBehaviour : Enemy
     /// </summary>
     public void setWalk()
     {
-        Debug.Log("SetWalk");
         aiming = false;
         anim.SetBool("Walk", true);
         anim.SetBool("Aim", false);
@@ -170,7 +166,6 @@ public class RobotBehaviour : Enemy
     /// </summary>
     public void setAim()
     {
-        Debug.Log("SetAim");
         aiming = true;
         anim.SetBool("Walk", false);
         anim.SetBool("Aim", true);
@@ -208,7 +203,6 @@ public class RobotBehaviour : Enemy
                         to: hit.point - transform.position)
                         - 180) < 90)
                 {
-                    Debug.Log("I SEE YOU");
                     return true;
                 }
                     }
