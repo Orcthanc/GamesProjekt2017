@@ -44,14 +44,9 @@ public class NewPlayerMovement : MonoBehaviour {
     [Serializable]
     public class AdvancedSettings
     {
-        public float groundCheckDistance = 0.01f; // distance for checking if the controller is grounded ( 0.01f seems to work best for this )
-        public float stickToGroundHelperDistance = 0.5f; // stops the character
-        public float slowDownRate = 20f; // rate at which the controller comes to a stop when there is no input
-        public float airRotationSpeed = 100;
-        public bool airControl; // can the user control the direction that is being moved in the air
-        public bool IsDoubleJumpPossible = true;
+        public float groundCheckDistance = 0.01f;
         public GameObject spawnPoint;
-        public int timeReverseSize = 200;
+        public int timeReverseSize = 1000;
         public float gravity = 10f;
     }
 
@@ -63,11 +58,9 @@ public class NewPlayerMovement : MonoBehaviour {
 
     private CharacterController charController;
     private CapsuleCollider m_Capsule;
-    private float m_YRotation;
-    private Vector3 m_GroundContactNormal, m_Airspeed, m_YVel;
-    private Quaternion m_AirDirection;
+    private Vector3 m_YVel;
     private CircleBuffer m_CircleBuffer;
-    private bool m_Jump, m_PreviouslyGrounded, m_Jumping, m_IsGrounded, m_DoubleJumpReady, m_SlowTime, m_ChangeTimeScale, m_ReverseTime, m_PrevTimeReverse;
+    private bool m_DoubleJumpReady;
 
     private int m_hp;
 
@@ -92,17 +85,6 @@ public class NewPlayerMovement : MonoBehaviour {
     {
         //TODO
         Debug.Log("Rip Player");
-    }
-
-
-    public bool Grounded
-    {
-        get { return m_IsGrounded; }
-    }
-
-    public bool Jumping
-    {
-        get { return m_Jumping; }
     }
 
     public bool Running
@@ -148,14 +130,6 @@ public class NewPlayerMovement : MonoBehaviour {
                 cam.transform.rotation = camRot;
             }
             return;
-        }
-        else
-        {
-            if (!m_ReverseTime)
-            {
-                m_PrevTimeReverse = false;
-            }
-            m_ReverseTime = false;
         }
 
         Debug.Log("test");
