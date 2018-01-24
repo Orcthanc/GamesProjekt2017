@@ -49,4 +49,16 @@ public class MovingPlattform : MonoBehaviour {
         yield return new WaitForSeconds(3);
         Destroy(gameObject);
     }
+
+    void OnTriggerEnter(Collider coll)
+    {
+        Debug.Log("testadsadasdasdasd");
+        coll.transform.SetParent(transform);
+    }
+
+    void OnTriggerExit(Collider coll)
+    {
+        Debug.Log("testadsadasdasdasd");
+        coll.transform.SetParent(null);
+    }
 }
