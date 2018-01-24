@@ -34,7 +34,7 @@ public class RobotBehaviour : Enemy
         muzzle = Find(transform,"Muzzle");
         shot = GetComponent<LineRenderer>();
         preferedDistance = Random.Range(shootDistance / 2, shootDistance);
-        //updateLastSeen();
+        updateLastSeen();
 
         if (eyes == null)
             throw new System.Exception(gameObject.ToString() + " says: Eyes not found, how am I supposed to see ?!?");
@@ -215,12 +215,11 @@ public class RobotBehaviour : Enemy
     /// Updates lastSeen to the position of the player, if and only if SeesPlayer() returns true
     /// </summary>
     public void updateLastSeen(){
+        sees = false;
         if(SeesPlayer()){
             sees = true;
             lastSeen = player;
-            return;
         }
-        sees = false;
     }
 
     /// <summary>
