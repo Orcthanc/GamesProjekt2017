@@ -60,7 +60,7 @@ public class NewPlayerMovement : MonoBehaviour {
     public AdvancedSettings advancedSettings = new AdvancedSettings();
 
 
-    private Rigidbody m_RigidBody;
+    private CharacterController charController;
     private CapsuleCollider m_Capsule;
     private float m_YRotation;
     private Vector3 m_GroundContactNormal, m_Airspeed;
@@ -94,11 +94,6 @@ public class NewPlayerMovement : MonoBehaviour {
     }
 
 
-    public Vector3 Velocity
-    {
-        get { return m_RigidBody.velocity; }
-    }
-
     public bool Grounded
     {
         get { return m_IsGrounded; }
@@ -117,13 +112,49 @@ public class NewPlayerMovement : MonoBehaviour {
         }
     }
 
+    private Vector2 GetInput()
+    {
+
+        Vector2 input = new Vector2
+        {
+            x = Input.GetAxis("Horizontal"),
+            y = Input.GetAxis("Vertical")
+        };
+        movementSettings.UpdateDesiredTargetSpeed(input);
+        return input;
+    }
+
     // Use this for initialization
     void Start () {
-		
+        mouseLook.Init(transform, cam.transform);
+        charController = GetComponent<CharacterController>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
-	}
+
+        if (Input.GetButton("Ability2"))
+        {
+            m_ReverseTime = true;
+            m_PrevTimeReverse = true;
+            return;
+        }
+        else
+        {
+            if (!m_ReverseTime)
+            {
+                m_PrevTimeReverse = false;
+            }
+            m_ReverseTime = false;
+        }
+
+        Debug.Log("test");
+
+        mouseLook.LookRotation(transform, cam.transform, false);
+
+        Vector2 input = GetInput();
+
+        charController.Move(transform.rotation * new Vector3(input.x, input.y));
+
+    }
 }
