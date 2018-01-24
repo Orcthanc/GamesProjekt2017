@@ -198,11 +198,11 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 Vector3 direction = HelperMethods.scatter(transform.rotation, currentAccuracy) * Vector3.forward; 
                 Debug.Log(direction);
                 RaycastHit hitInfo;
-                if (Physics.Raycast(transform.position, direction, out hitInfo, maxRange, 10))
+                if (Physics.Raycast(transform.position, direction, out hitInfo, maxRange))
                 {
-                    if (hitInfo.rigidbody.gameObject.GetComponent<Enemy>() != null)
+                    if (hitInfo.collider.gameObject.GetComponent<Enemy>() != null)
                     {
-                        hitInfo.rigidbody.gameObject.GetComponent<Enemy>().Damage = bulletDamage;
+                        hitInfo.collider.gameObject.GetComponent<Enemy>().Damage = bulletDamage;
                         Debug.Log("Actually hit something");
                     }
                 }
