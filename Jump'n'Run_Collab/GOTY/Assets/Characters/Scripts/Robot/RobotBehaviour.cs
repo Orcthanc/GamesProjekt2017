@@ -27,6 +27,8 @@ public class RobotBehaviour : Enemy
         anim = gameObject.GetComponentInChildren<Animator>();
         agent = gameObject.GetComponent<NavMeshAgent>();
         player = GameObject.FindWithTag("Player").transform;
+        Debug.Log(player.gameObject.layer);
+
         agent.autoTraverseOffMeshLink = true;
         eyes = Find(transform,"Eyes");
         muzzle = Find(transform,"Muzzle");
