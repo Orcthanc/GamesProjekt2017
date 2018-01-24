@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 00b192f3b1e65418483415dc07853ccc
-timeCreated: 1516826631
+timeCreated: 1516831181
 licenseType: Free
 SubstanceImporter:
   externalObjects: {}
@@ -33,9 +33,9 @@ SubstanceImporter:
         stringvalue: 
     - name: color
       value:
-        scalar[0]: 0
+        scalar[0]: 0.86764705
         scalar[1]: 0
-        scalar[2]: 0.778
+        scalar[2]: 0.07655717
         scalar[3]: 1
         texture: {instanceID: 0}
         stringvalue: 
@@ -147,7 +147,7 @@ SubstanceImporter:
       textureFormat: 0
       loadingBehavior: 1
   - serializedVersion: 16
-    name: New_Graph
+    name: RedDoor
     prototypeName: New_Graph
     shaderName: 
     shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
@@ -157,9 +157,9 @@ SubstanceImporter:
     inputs:
     - name: color_outline
       value:
-        scalar[0]: 0.14399509
-        scalar[1]: 0.3455882
-        scalar[2]: 0.22107479
+        scalar[0]: 0.4166667
+        scalar[1]: 0.5367647
+        scalar[2]: 1
         scalar[3]: 1
         texture: {instanceID: 0}
         stringvalue: 
@@ -246,22 +246,22 @@ SubstanceImporter:
       - _Color: {r: 1, g: 1, b: 1, a: 1}
       - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     textureParameters:
-    - name: New_Graph_basecolor
+    - name: RedDoor_basecolor
       alphaSource: 6
       filterMode: 1
       aniso: 1
       wrapMode: 0
-    - name: New_Graph_normal
+    - name: RedDoor_normal
       alphaSource: 0
       filterMode: 1
       aniso: 1
       wrapMode: 0
-    - name: New_Graph_metallic
+    - name: RedDoor_metallic
       alphaSource: 7
       filterMode: 1
       aniso: 1
       wrapMode: 0
-    - name: New_Graph_height
+    - name: RedDoor_height
       alphaSource: 0
       filterMode: 1
       aniso: 1
