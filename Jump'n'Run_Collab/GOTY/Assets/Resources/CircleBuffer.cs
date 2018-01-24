@@ -28,6 +28,18 @@ public class CircleBuffer {
         this.size = size;
     }
 
+    public void Push(Vector3 vector3, Quaternion quaternion)
+    {
+        lastEl = (++lastEl % size);
+        posBuffer[lastEl] = vector3;
+        dirBuffer[lastEl] = quaternion;
+        camDirBuffer[lastEl] = Quaternion.identity;
+        if (lastEl == firstEl)
+        {
+            firstEl = ++firstEl % size;
+        }
+    }
+
     public void Push(Vector3 vector3, Quaternion quaternion, Quaternion cam)
     {
         lastEl = (++lastEl % size);
@@ -37,6 +49,23 @@ public class CircleBuffer {
         if(lastEl == firstEl)
         {
             firstEl = ++firstEl % size;
+        }
+    }
+
+    public bool Pop(out Vector3 vector3, out Quaternion quaternion)
+    {
+        if (lastEl == firstEl)
+        {
+            vector3 = Vector3.forward;
+            quaternion = Quaternion.identity;
+            return false;
+        }
+        else
+        {
+            vector3 = posBuffer[lastEl];
+            quaternion = dirBuffer[lastEl];
+            lastEl = (lastEl + size - 1) % size;
+            return true;
         }
     }
 

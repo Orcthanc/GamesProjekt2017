@@ -38,7 +38,7 @@ public abstract class Enemy : MonoBehaviour {
     {
     }
 
-    public void Update()
+    public virtual void Update()
     {
         if (agro)
         {

@@ -19,7 +19,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
             public float JumpForce = 7f;
             public AnimationCurve SlopeCurveModifier = new AnimationCurve(new Keyframe(-90.0f, 1.0f), new Keyframe(0.0f, 1.0f), new Keyframe(90.0f, 0.0f));
 
-
             private bool m_Running;
 
             public void UpdateDesiredTargetSpeed(Vector2 input)
@@ -124,9 +123,32 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
         }
 
+        //----------------------------------------------------------------
+        int bulletDamage;           //Damage the bullet deals on impact
+        int fireRate;               //How much delay is added after every shot
+        int fireDelay;              //Current delay. Weapon only fires when delay = 0
+        float minimumAccuracy;      //Minimum size of hipfire
+        float maximumAccuracy;      //Maximum size of hipfire
+        float currentAccuracy;      //Current size of hipfire
+        float accuracy;             //How much spread is added to hipfire after every shot
+        float stability;            //How much spread is reduced when not firing
+        float heatbuildup;          //How much heat is added after every shot
+        float heat;                 //Current amount of heat. if heat reaches 100, weapons are disabled until heat falls to atleast 30
+        float coolingRate = 1;      //How quick the gun cools. Currently UNUSED
+        bool overheat;              //States if weapon is overheated or not
+        float maxRange = 1000;      //Range after which raycast stops
+        float recoilRight;          //Maximum recoil to the right
+        float recoilLeft;           //Maximum recoil to the left
+        float recoilUp;             //Maximum recoil upwards
+        float maxDistance = 999999f;//Maximaldistanz der Kugel. 
+        //----------------------------------------------------------------
+
 
         private void Start()
         {
+            currentAccuracy = 0;
+            heat = 0;
+            setLMG();
             m_RigidBody = GetComponent<Rigidbody>();
             m_Capsule = GetComponent<CapsuleCollider>();
             m_DoubleJumpReady = true;
@@ -171,9 +193,70 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 m_ChangeTimeScale = true;
             }
 
-            onUpdate.Invoke();
+            if (Input.GetButton("Fire2") && overheat == false && fireDelay == 0) {
+                heat += heatbuildup;
+                Vector3 direction = HelperMethods.scatter(transform.rotation, currentAccuracy) * Vector3.forward; 
+                Debug.Log(direction);
+                RaycastHit hitInfo;
+                if (Physics.Raycast(transform.position, direction, out hitInfo, maxRange))
+                {
+                    if (hitInfo.collider.gameObject.GetComponent<Enemy>() != null)
+                    {
+                        hitInfo.collider.gameObject.GetComponent<Enemy>().Damage = bulletDamage;
+                        Debug.Log("Actually hit something");
+                    }
+                }
+                if (heat >= 100)
+                {
+                    overheat = true;
+                }
+                getNewAccuracy();
+            }
+            else if (Input.GetButton("Fire2") == false)
+            {
+                currentAccuracy -= accuracy;
+                if (currentAccuracy < minimumAccuracy)
+                {
+                    currentAccuracy = minimumAccuracy;
+                }
+                heat -= coolingRate;
+            }
+            if (overheat && heat <= 30)
+                overheat = false;
         }
 
+        /// <summary>
+        /// Changes the size of the "hip fire"
+        /// </summary>
+        void getNewAccuracy()
+        {
+            currentAccuracy += accuracy;
+            if (currentAccuracy > maximumAccuracy)
+            {
+                currentAccuracy = maximumAccuracy;
+            }
+        }
+
+        /// <summary>
+        /// sets weapon mode to "LMG" config
+        /// </summary>
+        public void setLMG()
+        {
+            bulletDamage = 30;
+            minimumAccuracy = 0.05f;
+            maximumAccuracy = 0.20f;
+            accuracy = 0.01f;
+            if (currentAccuracy > maximumAccuracy)
+            {
+                currentAccuracy = maximumAccuracy;
+            }
+            else if (currentAccuracy < maximumAccuracy)
+            {
+                currentAccuracy = minimumAccuracy;
+            }
+            heatbuildup = 2;
+            coolingRate = 1;
+        }
 
         private void FixedUpdate()
         {
