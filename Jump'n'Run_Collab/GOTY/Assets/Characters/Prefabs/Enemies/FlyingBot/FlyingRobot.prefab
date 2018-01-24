@@ -36,6 +36,7 @@ GameObject:
   - component: {fileID: 4857323795973434}
   - component: {fileID: 143653891148892464}
   - component: {fileID: 114890705853430706}
+  - component: {fileID: 135042002709645036}
   m_Layer: 0
   m_Name: FlyingRobot
   m_TagString: Untagged
@@ -160,7 +161,6 @@ MonoBehaviour:
   shotCooldown: 5
   standardShotCooldown: 0.3
   agro: 0
-  player: {fileID: 0}
   speed: 2
   rotationSpeed: 100
   distanceToPlayer: 15
@@ -168,6 +168,18 @@ MonoBehaviour:
   viewDist: 50
   projectile: {fileID: 1797515723138814, guid: 1b8209ac740d5a341ae863a45cb5f6fe, type: 2}
   projectileSpawn: {fileID: 4088684941584002}
+--- !u!135 &135042002709645036
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1485458682056816}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.8
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!137 &137224070473600454
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
