@@ -35,6 +35,7 @@ public class RobotBehaviour : Enemy
         shot = GetComponent<LineRenderer>();
         preferedDistance = Random.Range(shootDistance / 2, shootDistance);
         updateLastSeen();
+        agent.SetDestination(transform.position);
 
         if (eyes == null)
             throw new System.Exception(gameObject.ToString() + " says: Eyes not found, how am I supposed to see ?!?");
@@ -46,8 +47,10 @@ public class RobotBehaviour : Enemy
 
     // Update is called once per frame
 
-    public new void Update()
+    public override void Update()
     {
+        updateLastSeen();
+
         shotCooldown -= Time.deltaTime;
         Debug.DrawLine(muzzle.position, player.position);
 
@@ -83,11 +86,15 @@ public class RobotBehaviour : Enemy
                     Shoot();
                 }
             }
+            else
+            {
+                Debug.Log("test");
+            }
         }
-        else{
-
+        else
+        {
+            Debug.Log("test");
         }
-        updateLastSeen();
     }
 
     /// <summary>
