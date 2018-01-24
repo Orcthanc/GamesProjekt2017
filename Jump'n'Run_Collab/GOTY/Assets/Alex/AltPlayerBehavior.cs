@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class characterController : MonoBehaviour
+public class AltPlayerBehavior : MonoBehaviour
 {
 
     public float speed = 10.0F;
