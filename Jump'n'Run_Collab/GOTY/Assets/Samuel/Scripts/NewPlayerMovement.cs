@@ -162,6 +162,7 @@ public class NewPlayerMovement : MonoBehaviour {
         Debug.Log(" a " + CheckGround());
         if (CheckGround())
         {
+            m_DoubleJumpReady = true;
             Debug.Log("a");
             if (m_YVel.y < 0)
             {
@@ -176,6 +177,12 @@ public class NewPlayerMovement : MonoBehaviour {
         {
             Debug.Log("b");
             m_YVel += -Vector3.up * Time.deltaTime * 0.1f * advancedSettings.gravity;
+
+            if (Input.GetButtonDown("Jump") && m_DoubleJumpReady)
+            {
+                m_DoubleJumpReady = false;
+                m_YVel = new Vector3(0, movementSettings.JumpForce, 0);
+            }
         }
 
     }
