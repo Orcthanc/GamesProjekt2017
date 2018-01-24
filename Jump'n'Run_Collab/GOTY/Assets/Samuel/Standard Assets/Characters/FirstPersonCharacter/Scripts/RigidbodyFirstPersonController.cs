@@ -126,7 +126,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         //----------------------------------------------------------------
         int bulletDamage;           //Damage the bullet deals on impact
         int fireRate;               //How much delay is added after every shot
-        int fireDelay;              //Current delay. Weapon only fires when delay = 0
+        float fireDelay;              //Current delay. Weapon only fires when delay = 0
         float minimumAccuracy;      //Minimum size of hipfire
         float maximumAccuracy;      //Maximum size of hipfire
         float currentAccuracy;      //Current size of hipfire
@@ -136,16 +136,17 @@ namespace UnityStandardAssets.Characters.FirstPerson
         float heat;                 //Current amount of heat. if heat reaches 100, weapons are disabled until heat falls to atleast 30
         float coolingRate = 1;      //How quick the gun cools. Currently UNUSED
         bool overheat;              //States if weapon is overheated or not
-        float maxRange = 1000;      //Range after which raycast stops
+        float maxRange = 99999;      //Range after which raycast stops
         float recoilRight;          //Maximum recoil to the right
         float recoilLeft;           //Maximum recoil to the left
-        float recoilUp;             //Maximum recoil upwards
-        float maxDistance = 999999f;//Maximaldistanz der Kugel. 
+        float recoilUp;             //Maximum recoil upwards. 
         //----------------------------------------------------------------
 
+        private Animation anim;
 
         private void Start()
         {
+            anim = GetComponentInChildren<Animation>();
             currentAccuracy = 0;
             heat = 0;
             setLMG();
@@ -193,9 +194,11 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 m_ChangeTimeScale = true;
             }
 
-            if (Input.GetButton("Fire2") && overheat == false && fireDelay == 0) {
+            if (Input.GetButton("Fire1") && overheat == false && fireDelay <= 0) {
+                anim.Play("Shoot");
                 heat += heatbuildup;
-                Vector3 direction = HelperMethods.scatter(transform.rotation, currentAccuracy) * Vector3.forward; 
+                fireDelay = 0.5f;
+                Vector3 direction = HelperMethods.scatter(transform.rotation * cam.transform.rotation, 0) * Vector3.forward; 
                 Debug.Log(direction);
                 RaycastHit hitInfo;
                 if (Physics.Raycast(transform.position, direction, out hitInfo, maxRange))
@@ -212,17 +215,31 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 }
                 getNewAccuracy();
             }
-            else if (Input.GetButton("Fire2") == false)
+            else if (Input.GetButton("Fire1") == false)
             {
                 currentAccuracy -= accuracy;
                 if (currentAccuracy < minimumAccuracy)
                 {
                     currentAccuracy = minimumAccuracy;
                 }
-                heat -= coolingRate;
+                if (heat > 0)
+                {
+                    heat -= coolingRate;
+                    if (heat < 0)
+                    {
+                        heat = 0;
+                    }
+                }
+                    
+                
             }
             if (overheat && heat <= 30)
                 overheat = false;
+            if (fireDelay > 0)
+            {
+                fireDelay -= Time.deltaTime;
+            }
+            Debug.Log("Current HEAT-LeveL: " + heat);
         }
 
         /// <summary>
@@ -256,6 +273,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
             heatbuildup = 2;
             coolingRate = 1;
+            fireDelay = 0.5f;
         }
 
         private void FixedUpdate()
