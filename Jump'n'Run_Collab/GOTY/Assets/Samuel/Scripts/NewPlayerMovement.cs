@@ -52,6 +52,7 @@ public class NewPlayerMovement : MonoBehaviour {
         public bool IsDoubleJumpPossible = true;
         public GameObject spawnPoint;
         public int timeReverseSize = 200;
+        public float gravity = 10f;
     }
 
     public Camera cam;
@@ -63,7 +64,7 @@ public class NewPlayerMovement : MonoBehaviour {
     private CharacterController charController;
     private CapsuleCollider m_Capsule;
     private float m_YRotation;
-    private Vector3 m_GroundContactNormal, m_Airspeed;
+    private Vector3 m_GroundContactNormal, m_Airspeed, m_YVel;
     private Quaternion m_AirDirection;
     private CircleBuffer m_CircleBuffer;
     private bool m_Jump, m_PreviouslyGrounded, m_Jumping, m_IsGrounded, m_DoubleJumpReady, m_SlowTime, m_ChangeTimeScale, m_ReverseTime, m_PrevTimeReverse;
@@ -128,6 +129,7 @@ public class NewPlayerMovement : MonoBehaviour {
     void Start () {
         mouseLook.Init(transform, cam.transform);
         charController = GetComponent<CharacterController>();
+        m_Capsule = GetComponent<CapsuleCollider>();
 	}
 	
 	// Update is called once per frame
@@ -154,7 +156,26 @@ public class NewPlayerMovement : MonoBehaviour {
 
         Vector2 input = GetInput();
 
-        charController.Move(transform.rotation * new Vector3(input.x, input.y));
+        charController.Move(transform.rotation * new Vector3(input.x, 0, input.y) * Time.deltaTime * movementSettings.Speed);
+        charController.Move(m_YVel);
 
+        if (CheckGround())
+        {
+            m_YVel = new Vector3(0, 0, 0);
+        }
+        else
+        {
+            m_YVel += -Vector3.up * Time.deltaTime * 0.1f * advancedSettings.gravity;
+        }
+
+    }
+
+    public bool CheckGround()
+    {
+        if (Physics.Raycast(transform.position, -Vector3.up, m_Capsule.height / 2 + 0.1f))
+        {
+            return true;
+        }
+        return false;
     }
 }
