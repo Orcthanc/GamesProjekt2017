@@ -28,7 +28,7 @@ public class RobotBehaviour : Enemy
         agent = gameObject.GetComponent<NavMeshAgent>();
         player = GameObject.FindWithTag("Player").transform;
         agent.autoTraverseOffMeshLink = true;
-        eyes = transform.Find("Eyes");
+        eyes = Find(transform,"Eyes");
         muzzle = Find(transform,"Muzzle");
         shot = GetComponent<LineRenderer>();
         preferedDistance = Random.Range(shootDistance / 2, shootDistance);
@@ -51,18 +51,22 @@ public class RobotBehaviour : Enemy
 
         anim.Update(Time.deltaTime);
 
-        if (lastSeen != null && agent.destination != lastSeen.position)
+        if (lastSeen != null && agent.destination != lastSeen.position && sees)
         {
             Destinate(lastSeen);
         }
 
         LookAt(agent.nextPosition);
 
-        if (agent.speed > 0.0f)
+        if (agent.speed > 0.00001f)
         {
             Debug.Log(agent.speed);
             setWalk();
+        } else {
+            setAim();
         }
+
+
 
 
         if (Distance(player) < preferedDistance)
@@ -96,7 +100,7 @@ public class RobotBehaviour : Enemy
             int layermask = 1 << 9;
             int othermask = 0xFFFF ^ layermask;
 
-            Vector3 spread = new Vector3(RandomSpread(),RandomSpread(), RandomSpread());
+            Vector3 spread = new Vector3(RandomSpread(),0f, RandomSpread());
             Vector3 dir = Vector3.Normalize(player.position - muzzle.position) + spread;
             RaycastHit hitInfo;
 
@@ -104,16 +108,15 @@ public class RobotBehaviour : Enemy
 
             if (Physics.Raycast(muzzle.position, dir, out hitInfo, shootDistance))
             {
-                StartCoroutine(Shoot((dir * hitInfo.distance)));
+                StartCoroutine(Shoot((hitInfo.point)));
             }
             else
             {
                 StartCoroutine(Shoot(muzzle.position + (dir * shootDistance)));
             }
-            
 
-            if (!Physics.Raycast(muzzle.position, dir, shootDistance, othermask)
-                && Physics.Raycast(muzzle.position, dir, shootDistance, layermask))
+
+            if (Physics.Raycast(muzzle.position, dir, out hitInfo ,shootDistance) && hitInfo.collider.gameObject.layer.Equals(9))
             {
                 Debug.Log("PlayerHit");
             }
@@ -146,7 +149,9 @@ public class RobotBehaviour : Enemy
     /// </summary>
     /// <returns>The multiplier for the spread of a shot</returns>
     public float RandomSpread(){
-        return Random.Range(-inaccuracyModifier, inaccuracyModifier);
+        float spread = Random.Range(-inaccuracyModifier, inaccuracyModifier);
+        Debug.Log(spread);
+        return spread;// Random.Range(-inaccuracyModifier, inaccuracyModifier);
     }
 
     /// <summary>
@@ -190,21 +195,23 @@ public class RobotBehaviour : Enemy
 
         RaycastHit hit;
 
-        if (Physics.Raycast(transform.position, player.position - transform.position, out hit, viewDistance, layermask))
+        if (Physics.Raycast(transform.position, player.position - transform.position, out hit, viewDistance))
         {
-            Debug.DrawRay(eyes.position, hit.point - eyes.position, Color.red, 1f);
+            Debug.DrawRay(eyes.position, hit.point - eyes.position, Color.red, 0.1f);
             if (hit.collider.gameObject.layer.Equals(9))
+
+                Debug.Log("I SEE YOU");
+                return true;
+
                 if (Mathf.Abs(Vector3.Angle(
                         from: transform.forward,
                         to: hit.point - transform.position)
                         - 180) < 90)
                 {
-                    Debug.Log(Mathf.Abs(Vector3.Angle(from: eyes.forward, to: hit.point - eyes.position) - 180));
+                    Debug.Log("I SEE YOU");
                     return true;
                 }
-
-            Debug.Log(Mathf.Abs(Vector3.Angle(from: eyes.forward, to: hit.point - eyes.position) - 180));
-        }
+                    }
         return false;
     }
 

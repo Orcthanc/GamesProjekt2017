@@ -5,6 +5,12 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/NavTest.unity
     guid: e8b87ffc9a43c4a1fa8cd676c794085c
+  - enabled: 0
+    path: Assets/LevelTest.unity
+    guid: 46202eb7a355f41c19155d4599244d7d
+  - enabled: 1
+    path: Assets/textureTest.unity
+    guid: 2da7db8b318454ad58292e997fb88294
