@@ -8959,6 +8959,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fa725d307710414e903156d4c5aed2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentHealth: {fileID: 0}
+  ratioTextHp: {fileID: 0}
+  currentHeat: {fileID: 0}
+  ratioTextHeat: {fileID: 0}
   player: {fileID: 1244250058}
 --- !u!4 &509153589
 Transform:
@@ -21176,6 +21180,22 @@ GameObject:
   m_PrefabParentObject: {fileID: 1530195016262654, guid: 57dc19b8c56e14afca2d38691698d01c,
     type: 2}
   m_PrefabInternal: {fileID: 318108999}
+--- !u!114 &1244250059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1244250058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fa725d307710414e903156d4c5aed2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentHealth: {fileID: 458463987}
+  ratioTextHp: {fileID: 1032906097}
+  currentHeat: {fileID: 0}
+  ratioTextHeat: {fileID: 0}
+  player: {fileID: 1244250058}
 --- !u!1 &1251023404
 GameObject:
   m_ObjectHideFlags: 0
