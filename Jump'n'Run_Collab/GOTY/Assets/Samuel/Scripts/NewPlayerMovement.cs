@@ -51,6 +51,12 @@ public class NewPlayerMovement : MonoBehaviour
         public float gravity = 10f;
     }
 
+    [Serializable]
+    public class HudSettings
+    {
+    
+    }
+
     public Camera cam;
     public MovementSettings movementSettings = new MovementSettings();
     public MouseLook mouseLook = new MouseLook();
@@ -63,7 +69,7 @@ public class NewPlayerMovement : MonoBehaviour
     private CircleBuffer m_CircleBuffer;
     private bool m_DoubleJumpReady, m_TimeSlow, m_PrevRevTime;
 
-    private int m_hp;
+    public int m_hp;
 
     /// <summary>
     /// Gets remaining hp.
@@ -111,6 +117,7 @@ public class NewPlayerMovement : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        m_hp = 100;
         anim = GetComponentInChildren<Animation>();
         weapon = 1;
         pellets = 10;
@@ -145,6 +152,7 @@ public class NewPlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        GetComponent<HUDInterface>().UpdateHUD();
 
         if (Input.GetButton("Ability2"))
         {
