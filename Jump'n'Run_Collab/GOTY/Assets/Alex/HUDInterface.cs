@@ -12,7 +12,7 @@ public class HUDInterface : MonoBehaviour {
     private static float maxHP = 100;
     private static float ratioHealth;
     private static float maxHeat = 100;
-
+    private static float ratioHeat;
 
     public GameObject player;
     static NewPlayerMovement otherScript;
@@ -28,7 +28,13 @@ public class HUDInterface : MonoBehaviour {
         currentHealth.rectTransform.localScale = new Vector3(ratioHealth, 1, 1);
         ratioText.text = Math.Round(ratioHealth * 100).ToString();
         //Heat Stuff
-        currentHeat.fillAmount = (otherScript.Heat / maxHeat)/2;
+        ratioHeat = otherScript.Heat / maxHeat/ 2;
+        if (ratioHeat>0.5f)
+        {
+            ratioHeat = 0.5f;
+        }
+        currentHeat.fillAmount = ratioHeat;
+        
         //TimeStuff
         currentTime.fillAmount = otherScript.getRemainingPCT()/2;
     }
