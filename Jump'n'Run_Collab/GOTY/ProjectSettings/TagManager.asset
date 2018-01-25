@@ -3,13 +3,7 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - DeathZone
-<<<<<<< .merge_file_Qc379f
-  - Eyes
-=======
-  - Projectile
->>>>>>> .merge_file_LrN99W
+  tags: []
   layers:
   - Default
   - TransparentFX
@@ -19,8 +13,8 @@ TagManager:
   - UI
   - 
   - 
-  - GunLayer
-  - PlayerLayer
+  - 
+  - 
   - 
   - 
   - 
