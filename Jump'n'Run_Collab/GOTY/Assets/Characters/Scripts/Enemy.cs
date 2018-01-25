@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof (CharacterController))]
 public abstract class Enemy : MonoBehaviour {
 
     public float shotCooldown = 1f;
-    public readonly float standardShotCooldown = 1f;
+    public float standardShotCooldown = 1f;
 
     public bool agro = false;
 
-    private int hp = 100;
+    protected int hp = 100;
 
-    private CharacterController charController;
+    protected CharacterController charController;
 
     public int Damage
     {
