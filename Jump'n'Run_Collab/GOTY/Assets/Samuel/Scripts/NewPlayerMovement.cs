@@ -60,7 +60,7 @@ public class NewPlayerMovement : MonoBehaviour {
     private CapsuleCollider m_Capsule;
     private Vector3 m_YVel;
     private CircleBuffer m_CircleBuffer;
-    private bool m_DoubleJumpReady, m_TimeSlow;
+    private bool m_DoubleJumpReady, m_TimeSlow, m_PrevRevTime;
 
     private int m_hp;
 
@@ -120,6 +120,7 @@ public class NewPlayerMovement : MonoBehaviour {
 
         if (Input.GetButton("Ability2"))
         {
+            m_PrevRevTime = true;
             Vector3 pos;
             Quaternion rot;
             Quaternion camRot;
@@ -130,6 +131,11 @@ public class NewPlayerMovement : MonoBehaviour {
                 cam.transform.rotation = camRot;
             }
             return;
+        }
+        else if (m_PrevRevTime)
+        {
+            m_PrevRevTime = false;
+            mouseLook.Init(transform, cam.transform);
         }
 
         if (Input.GetButtonDown("Ability1"))
@@ -146,8 +152,7 @@ public class NewPlayerMovement : MonoBehaviour {
             }
             Time.fixedDeltaTime = 0.02f * Time.timeScale;
         }
-
-        Debug.Log("test");
+        
 
         mouseLook.LookRotation(transform, cam.transform, false);
 
@@ -155,12 +160,10 @@ public class NewPlayerMovement : MonoBehaviour {
 
         charController.Move(transform.rotation * new Vector3(input.x, 0, input.y) * Time.deltaTime * movementSettings.Speed);
         charController.Move(m_YVel * Time.deltaTime);
-
-        Debug.Log(" a " + CheckGround());
+        
         if (CheckGround())
         {
             m_DoubleJumpReady = true;
-            Debug.Log("a");
             if (m_YVel.y < 0)
             {
                 m_YVel = new Vector3(0, 0, 0);
@@ -172,7 +175,6 @@ public class NewPlayerMovement : MonoBehaviour {
         }
         else
         {
-            Debug.Log("b");
             m_YVel += -Vector3.up * Time.deltaTime * 0.1f * advancedSettings.gravity;
 
             if (Input.GetButtonDown("Jump") && m_DoubleJumpReady)
