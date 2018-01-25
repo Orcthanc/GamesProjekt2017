@@ -60,7 +60,7 @@ public class NewPlayerMovement : MonoBehaviour {
     private CapsuleCollider m_Capsule;
     private Vector3 m_YVel;
     private CircleBuffer m_CircleBuffer;
-    private bool m_DoubleJumpReady;
+    private bool m_DoubleJumpReady, m_TimeSlow;
 
     private int m_hp;
 
@@ -132,6 +132,21 @@ public class NewPlayerMovement : MonoBehaviour {
             return;
         }
 
+        if (Input.GetButtonDown("Ability1"))
+        {
+            if (m_TimeSlow)
+            {
+                m_TimeSlow = false;
+                Time.timeScale = 1;
+            }
+            else
+            {
+                m_TimeSlow = true;
+                Time.timeScale = 0.1f;
+            }
+            Time.fixedDeltaTime = 0.02f * Time.timeScale;
+        }
+
         Debug.Log("test");
 
         mouseLook.LookRotation(transform, cam.transform, false);
@@ -139,7 +154,7 @@ public class NewPlayerMovement : MonoBehaviour {
         Vector2 input = GetInput();
 
         charController.Move(transform.rotation * new Vector3(input.x, 0, input.y) * Time.deltaTime * movementSettings.Speed);
-        charController.Move(m_YVel);
+        charController.Move(m_YVel * Time.deltaTime);
 
         Debug.Log(" a " + CheckGround());
         if (CheckGround())
