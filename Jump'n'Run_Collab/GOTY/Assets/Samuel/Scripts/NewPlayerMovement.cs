@@ -1,0 +1,184 @@
+﻿using System;
+using UnityEngine;
+
+[RequireComponent(typeof(CapsuleCollider))]
+[RequireComponent(typeof(CharacterController))]
+public class NewPlayerMovement : MonoBehaviour {
+
+    [Serializable]
+    public class MovementSettings
+    {
+        public float StandardSpeed = 2f;
+        [HideInInspector]
+        public float Speed = 2f;
+        public float RunMultiplier = 1.5f;   // Speed when sprinting
+        public KeyCode RunKey = KeyCode.LeftShift;
+        public float JumpForce = 7f;
+        public AnimationCurve SlopeCurveModifier = new AnimationCurve(new Keyframe(-90.0f, 1.0f), new Keyframe(0.0f, 1.0f), new Keyframe(90.0f, 0.0f));
+
+        private bool m_Running;
+
+        public void UpdateDesiredTargetSpeed(Vector2 input)
+        {
+            Speed = StandardSpeed;
+
+            if (Input.GetKey(RunKey))
+            {
+                Speed *= RunMultiplier;
+                m_Running = true;
+            }
+            else
+            {
+                m_Running = false;
+            }
+
+        }
+
+        public bool Running
+        {
+            get { return m_Running; }
+        }
+    }
+
+
+    [Serializable]
+    public class AdvancedSettings
+    {
+        public float groundCheckDistance = 0.01f;
+        public GameObject spawnPoint;
+        public int timeReverseSize = 1000;
+        public float gravity = 10f;
+    }
+
+    public Camera cam;
+    public MovementSettings movementSettings = new MovementSettings();
+    public MouseLook mouseLook = new MouseLook();
+    public AdvancedSettings advancedSettings = new AdvancedSettings();
+
+
+    private CharacterController charController;
+    private CapsuleCollider m_Capsule;
+    private Vector3 m_YVel;
+    private CircleBuffer m_CircleBuffer;
+    private bool m_DoubleJumpReady;
+
+    private int m_hp;
+
+    /// <summary>
+    /// Gets remaining hp.
+    /// The setter is used to apply damage
+    /// </summary>
+    public int Damage
+    {
+        get { return m_hp; }
+        set
+        {
+            m_hp -= value;
+            if (m_hp < 0)
+            {
+                Die();
+            }
+        }
+    }
+
+    public void Die()
+    {
+        //TODO
+        Debug.Log("Rip Player");
+    }
+
+    public bool Running
+    {
+        get
+        {
+            return movementSettings.Running;
+        }
+    }
+
+    private Vector2 GetInput()
+    {
+
+        Vector2 input = new Vector2
+        {
+            x = Input.GetAxis("Horizontal"),
+            y = Input.GetAxis("Vertical")
+        };
+        movementSettings.UpdateDesiredTargetSpeed(input);
+        return input;
+    }
+
+    // Use this for initialization
+    void Start () {
+        mouseLook.Init(transform, cam.transform);
+        charController = GetComponent<CharacterController>();
+        m_Capsule = GetComponent<CapsuleCollider>();
+        m_CircleBuffer = new CircleBuffer(1000);
+	}
+	
+	// Update is called once per frame
+	void Update () {
+
+        if (Input.GetButton("Ability2"))
+        {
+            Vector3 pos;
+            Quaternion rot;
+            Quaternion camRot;
+            if(m_CircleBuffer.Pop(out pos, out rot, out camRot))
+            {
+                transform.position = pos;
+                transform.rotation = rot;
+                cam.transform.rotation = camRot;
+            }
+            return;
+        }
+
+        Debug.Log("test");
+
+        mouseLook.LookRotation(transform, cam.transform, false);
+
+        Vector2 input = GetInput();
+
+        charController.Move(transform.rotation * new Vector3(input.x, 0, input.y) * Time.deltaTime * movementSettings.Speed);
+        charController.Move(m_YVel);
+
+        Debug.Log(" a " + CheckGround());
+        if (CheckGround())
+        {
+            m_DoubleJumpReady = true;
+            Debug.Log("a");
+            if (m_YVel.y < 0)
+            {
+                m_YVel = new Vector3(0, 0, 0);
+            }
+            if (Input.GetButtonDown("Jump"))
+            {
+                m_YVel = new Vector3(0, movementSettings.JumpForce, 0);
+            }
+        }
+        else
+        {
+            Debug.Log("b");
+            m_YVel += -Vector3.up * Time.deltaTime * 0.1f * advancedSettings.gravity;
+
+            if (Input.GetButtonDown("Jump") && m_DoubleJumpReady)
+            {
+                m_DoubleJumpReady = false;
+                m_YVel = new Vector3(0, movementSettings.JumpForce, 0);
+            }
+        }
+
+        m_CircleBuffer.Push(transform.position, transform.rotation, cam.transform.rotation);
+
+    }
+
+    public bool CheckGround()
+    {
+        Debug.DrawRay(transform.position, (-Vector3.up) * (m_Capsule.height / 2 + 0.1f));
+        Debug.Log((m_Capsule.height / 2 + 0.1f));
+        if (Physics.Raycast(transform.position, -Vector3.up, m_Capsule.height / 2 + 0.1f))
+        {
+            return true;
+        }
+        return false;
+    }
+}

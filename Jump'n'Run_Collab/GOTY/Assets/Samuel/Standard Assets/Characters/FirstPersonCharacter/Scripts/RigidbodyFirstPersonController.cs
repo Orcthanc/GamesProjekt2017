@@ -19,7 +19,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
             public float JumpForce = 7f;
             public AnimationCurve SlopeCurveModifier = new AnimationCurve(new Keyframe(-90.0f, 1.0f), new Keyframe(0.0f, 1.0f), new Keyframe(90.0f, 0.0f));
 
-
             private bool m_Running;
 
             public void UpdateDesiredTargetSpeed(Vector2 input)
@@ -51,12 +50,15 @@ namespace UnityStandardAssets.Characters.FirstPerson
             public float groundCheckDistance = 0.01f; // distance for checking if the controller is grounded ( 0.01f seems to work best for this )
             public float stickToGroundHelperDistance = 0.5f; // stops the character
             public float slowDownRate = 20f; // rate at which the controller comes to a stop when there is no input
+            public float airRotationSpeed = 100;
             public bool airControl; // can the user control the direction that is being moved in the air
             public bool IsDoubleJumpPossible = true;
             public GameObject spawnPoint;
+            public int timeReverseSize = 200;
         }
 
         public UnityEvent onUpdate;
+        public UnityEvent onDeath;
 
         public Camera cam;
         public MovementSettings movementSettings = new MovementSettings();
@@ -67,8 +69,35 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private Rigidbody m_RigidBody;
         private CapsuleCollider m_Capsule;
         private float m_YRotation;
-        private Vector3 m_GroundContactNormal;
-        private bool m_Jump, m_PreviouslyGrounded, m_Jumping, m_IsGrounded, m_DoubleJumpReady, m_SlowTime, m_ChangeTimeScale;
+        private Vector3 m_GroundContactNormal, m_Airspeed;
+        private Quaternion m_AirDirection;
+        private CircleBuffer m_CircleBuffer;
+        private bool m_Jump, m_PreviouslyGrounded, m_Jumping, m_IsGrounded, m_DoubleJumpReady, m_SlowTime, m_ChangeTimeScale, m_ReverseTime, m_PrevTimeReverse;
+
+        private int m_hp;
+
+        /// <summary>
+        /// Gets remaining hp.
+        /// The setter is used to apply damage
+        /// </summary>
+        public int Damage
+        {
+            get { return m_hp; }
+            set {
+                m_hp -= value;
+                if(m_hp < 0)
+                {
+                    onDeath.Invoke();
+                    Die();
+                }
+            }
+        }
+
+        public void Die()
+        {
+            //TODO
+            Debug.Log("Rip Player");
+        }
 
 
         public Vector3 Velocity
@@ -94,18 +123,58 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
         }
 
+        //----------------------------------------------------------------
+        int bulletDamage;           //Damage the bullet deals on impact
+        int fireRate;               //How much delay is added after every shot
+        float fireDelay;              //Current delay. Weapon only fires when delay = 0
+        float minimumAccuracy;      //Minimum size of hipfire
+        float maximumAccuracy;      //Maximum size of hipfire
+        float currentAccuracy;      //Current size of hipfire
+        float accuracy;             //How much spread is added to hipfire after every shot
+        float stability;            //How much spread is reduced when not firing
+        float heatbuildup;          //How much heat is added after every shot
+        float heat;                 //Current amount of heat. if heat reaches 100, weapons are disabled until heat falls to atleast 30
+        float coolingRate = 1;      //How quick the gun cools. Currently UNUSED
+        bool overheat;              //States if weapon is overheated or not
+        float maxRange = 99999;      //Range after which raycast stops
+        float recoilRight;          //Maximum recoil to the right
+        float recoilLeft;           //Maximum recoil to the left
+        float recoilUp;             //Maximum recoil upwards. 
+        //----------------------------------------------------------------
+
+        private Animation anim;
 
         private void Start()
         {
+            anim = GetComponentInChildren<Animation>();
+            currentAccuracy = 0;
+            heat = 0;
+            setLMG();
             m_RigidBody = GetComponent<Rigidbody>();
             m_Capsule = GetComponent<CapsuleCollider>();
             m_DoubleJumpReady = true;
             mouseLook.Init (transform, cam.transform);
+            m_CircleBuffer = new CircleBuffer(advancedSettings.timeReverseSize);
         }
 
 
         private void Update()
         {
+            if (Input.GetButton("Ability2"))
+            {
+                m_ReverseTime = true;
+                m_PrevTimeReverse = true;
+                return;
+            }
+            else
+            {
+                if (!m_ReverseTime)
+                {
+                    m_PrevTimeReverse = false;
+                }
+                m_ReverseTime = false;
+            }
+
             RotateView();
 
             if (Input.GetButtonDown("Jump"))
@@ -125,12 +194,105 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 m_ChangeTimeScale = true;
             }
 
-            onUpdate.Invoke();
+            if (Input.GetButton("Fire1") && overheat == false && fireDelay <= 0) {
+                anim.Play("Shoot");
+                heat += heatbuildup;
+                fireDelay = 0.5f;
+                Vector3 direction = cam.transform.rotation * Vector3.forward; 
+                Debug.DrawRay(transform.position, direction * maxRange, Color.red);
+                RaycastHit hitInfo;
+                if (Physics.Raycast(transform.position, direction, out hitInfo, maxRange))
+                {
+                    if (hitInfo.collider.gameObject.GetComponent<Enemy>() != null)
+                    {
+                        hitInfo.collider.gameObject.GetComponent<Enemy>().Damage = bulletDamage;
+                        Debug.Log("Actually hit something");
+                    }
+                }
+                if (heat >= 100)
+                {
+                    overheat = true;
+                }
+                getNewAccuracy();
+            }
+            else if (Input.GetButton("Fire1") == false)
+            {
+                currentAccuracy -= accuracy;
+                if (currentAccuracy < minimumAccuracy)
+                {
+                    currentAccuracy = minimumAccuracy;
+                }
+                if (heat > 0)
+                {
+                    heat -= coolingRate;
+                    if (heat < 0)
+                    {
+                        heat = 0;
+                    }
+                }
+                    
+                
+            }
+            if (overheat && heat <= 30)
+                overheat = false;
+            if (fireDelay > 0)
+            {
+                fireDelay -= Time.deltaTime;
+            }
+            Debug.Log("Current HEAT-LeveL: " + heat);
         }
 
+        /// <summary>
+        /// Changes the size of the "hip fire"
+        /// </summary>
+        void getNewAccuracy()
+        {
+            currentAccuracy += accuracy;
+            if (currentAccuracy > maximumAccuracy)
+            {
+                currentAccuracy = maximumAccuracy;
+            }
+        }
+
+        /// <summary>
+        /// sets weapon mode to "LMG" config
+        /// </summary>
+        public void setLMG()
+        {
+            bulletDamage = 30;
+            minimumAccuracy = 0.05f;
+            maximumAccuracy = 0.20f;
+            accuracy = 0.01f;
+            if (currentAccuracy > maximumAccuracy)
+            {
+                currentAccuracy = maximumAccuracy;
+            }
+            else if (currentAccuracy < maximumAccuracy)
+            {
+                currentAccuracy = minimumAccuracy;
+            }
+            heatbuildup = 2;
+            coolingRate = 1;
+            fireDelay = 0.5f;
+        }
 
         private void FixedUpdate()
         {
+
+            if (m_ReverseTime)
+            {
+                Vector3 pos;
+                Quaternion rot;
+                Quaternion camRot;
+                if(m_CircleBuffer.Pop(out pos, out rot, out camRot))
+                {
+                    transform.position = pos;
+                    transform.rotation = rot;
+                    cam.transform.rotation = camRot;
+                    m_RigidBody.Sleep();
+                    return;
+                }
+            }
 
             if (m_ChangeTimeScale)
             {
@@ -157,14 +319,27 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 // always move along the camera forward as it is the direction that it being aimed at
                 Vector3 desiredMove = cam.transform.forward*input.y + cam.transform.right*input.x;
                 desiredMove = Vector3.ProjectOnPlane(desiredMove, m_GroundContactNormal).normalized;
-
-                desiredMove.x = desiredMove.x*movementSettings.Speed;
-                desiredMove.z = desiredMove.z*movementSettings.Speed;
-                desiredMove.y = desiredMove.y*movementSettings.Speed;
-                if (m_RigidBody.velocity.sqrMagnitude <
-                    (movementSettings.Speed*movementSettings.Speed))
+                if (m_IsGrounded)
                 {
-                    m_RigidBody.AddForce(desiredMove*SlopeMultiplier(), ForceMode.Impulse);
+                    desiredMove.x = desiredMove.x * movementSettings.Speed;
+                    desiredMove.z = desiredMove.z * movementSettings.Speed;
+                    desiredMove.y = desiredMove.y * movementSettings.Speed;
+                    if (m_RigidBody.velocity.sqrMagnitude <
+                    (movementSettings.Speed * movementSettings.Speed))
+                    {
+                        m_RigidBody.AddForce(desiredMove * SlopeMultiplier(), ForceMode.Impulse);
+                    }
+                }
+                else
+                {
+                    desiredMove.x = (m_AirDirection * m_Airspeed).x;
+                    desiredMove.y = (m_AirDirection * m_Airspeed).y;
+                    desiredMove.z = (m_AirDirection * m_Airspeed).x;
+                    if (m_RigidBody.velocity.sqrMagnitude <
+                    (m_Airspeed.magnitude * m_Airspeed.magnitude))
+                    {
+                        m_RigidBody.AddForce(desiredMove * SlopeMultiplier(), ForceMode.Impulse);
+                    }
                 }
             }
 
@@ -177,6 +352,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
                     m_RigidBody.drag = 0f;
                     m_RigidBody.velocity = new Vector3(m_RigidBody.velocity.x, 0f, m_RigidBody.velocity.z);
                     m_RigidBody.AddForce(new Vector3(0f, movementSettings.JumpForce, 0f), ForceMode.Impulse);
+                    m_Airspeed = new Vector3(m_RigidBody.velocity.x, 0f, m_RigidBody.velocity.z);
+                    m_AirDirection = Quaternion.Euler(0, transform.eulerAngles.y, 0);
                     m_Jumping = true;
                 }
 
@@ -194,6 +371,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 }
             }
             m_Jump = false;
+
+            m_CircleBuffer.Push(transform.position, transform.rotation, cam.transform.rotation);
         }
 
 
@@ -245,13 +424,34 @@ namespace UnityStandardAssets.Characters.FirstPerson
             // get the rotation before it's changed
             float oldYRotation = transform.eulerAngles.y;
 
-            mouseLook.LookRotation (transform, cam.transform);
+            mouseLook.LookRotation (transform, cam.transform, m_PrevTimeReverse);
 
-            if (m_IsGrounded || advancedSettings.airControl)
+            if (m_IsGrounded)
             {
                 // Rotate the rigidbody velocity to match the new direction that the character is looking
                 Quaternion velRotation = Quaternion.AngleAxis(transform.eulerAngles.y - oldYRotation, Vector3.up);
                 m_RigidBody.velocity = velRotation * m_RigidBody.velocity;
+            }
+            else if (advancedSettings.airControl)
+            {
+                if (Input.GetAxisRaw("Horizontal") > 0)
+                {
+                    if (Quaternion.Angle(m_AirDirection, transform.rotation) < 45)
+                    {
+                        m_RigidBody.velocity = Quaternion.AngleAxis(Input.GetAxis("Horizontal") * advancedSettings.airRotationSpeed * Time.deltaTime, Vector3.up) * m_RigidBody.velocity;
+                    }
+                }
+                else if (Input.GetAxisRaw("Horizontal") < 0)
+                {
+                    if (Quaternion.Angle(transform.rotation, m_AirDirection) < 45)
+                    {
+                        m_RigidBody.velocity = Quaternion.AngleAxis(Input.GetAxis("Horizontal") * advancedSettings.airRotationSpeed * Time.deltaTime, Vector3.up) * m_RigidBody.velocity;
+                    }
+                }
+                if (!m_PrevTimeReverse)
+                    m_AirDirection = Quaternion.LookRotation(m_RigidBody.velocity);
+                else
+                    m_Airspeed = new Vector3(0, 0, 0);
             }
         }
 
@@ -276,6 +476,11 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 m_Jumping = false;
                 m_DoubleJumpReady = true;
             }
+        }
+
+        public float GetCircleBufferPct()
+        {
+            return m_CircleBuffer.getRemainingPct();
         }
 
         public void Spawn()

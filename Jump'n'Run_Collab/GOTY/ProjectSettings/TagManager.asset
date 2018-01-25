@@ -5,7 +5,11 @@ TagManager:
   serializedVersion: 2
   tags:
   - DeathZone
+<<<<<<< .merge_file_Qc379f
   - Eyes
+=======
+  - Projectile
+>>>>>>> .merge_file_LrN99W
   layers:
   - Default
   - TransparentFX

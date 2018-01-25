@@ -6,6 +6,9 @@ using UnityEngine;
 [System.Serializable]
 public class Callable : MonoBehaviour{
 
+    /// <summary>
+    /// Gets called after update
+    /// </summary>
     public void Call()
     {
 

@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class FlyingRobotBehaviour : Enemy {
 
-    public GameObject player;
+    private GameObject player;
     public float speed = 2;
     public float rotationSpeed = 100;
     public float distanceToPlayer = 15;
     public float inaccuracy = 10;
+    public float viewDist = 50;
     public GameObject projectile;
     private Transform target;
     private Animation anim;
@@ -17,12 +18,16 @@ public class FlyingRobotBehaviour : Enemy {
 
     public new void Start()
     {
-        base.Start();
+        charController = GetComponent<CharacterController>();
         target = new GameObject().transform;
         speed *= Mathf.Sign(Random.Range(-1, 1));
         anim = GetComponentInChildren<Animation>();
+        player = GameObject.FindWithTag("Player");
     }
 
+    /// <summary>
+    /// Moves the robot
+    /// </summary>
     public override void Move()
     {
         if (!anim.isPlaying)
@@ -47,16 +52,53 @@ public class FlyingRobotBehaviour : Enemy {
         }
     }
 
+    /// <summary>
+    /// Used to check agro while not agroed (is player in sight?)
+    /// </summary>
+    /// <returns>Returns true if the enemy should start attacking the player</returns>
     public override bool CheckAgro()
     {
         if (!anim.isPlaying)
             anim.Play("Idle");
-        return true;
+        return SeesPlayer();
     }
 
+    /// <summary>
+    /// Checks if the player is within line of sight
+    /// </summary>
+    /// <returns>true, if the player is in sight</returns>
+    bool SeesPlayer()
+    {
+        // bit shift the index of the layer to get a bit mask 
+        int layermask = 1 << 9;
+        int othermask = 0xFFFF ^ layermask;
+
+        RaycastHit hit;
+
+        Debug.Log(!Physics.Raycast(transform.position, player.transform.position - transform.position, viewDist, othermask));
+        Debug.Log(Physics.Raycast(transform.position, player.transform.position - transform.position, out hit, viewDist, layermask));
+
+        if (Physics.Raycast(transform.position, player.transform.position - transform.position, out hit, viewDist, layermask))
+        {
+            Debug.DrawRay(transform.position, player.transform.position - transform.position, Color.red, 1f);
+            if(hit.collider.gameObject.layer.Equals(9))
+                if(Mathf.Abs(Vector3.Angle(
+                        from: transform.forward,
+                        to: hit.point - transform.position) 
+                        - 180) < 90)
+                {
+                    return true;
+                }
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// Spawns a new projectile
+    /// </summary>
     public override void Shoot()
     {
         anim.Play("Shoot");
-        GameObject temp = Instantiate(projectile, projectileSpawn.transform.position, HelperMethods.scatter(projectileSpawn.transform.rotation, inaccuracy));
+        Instantiate(projectile, projectileSpawn.transform.position, HelperMethods.scatter(projectileSpawn.transform.rotation, inaccuracy));
     }
 }

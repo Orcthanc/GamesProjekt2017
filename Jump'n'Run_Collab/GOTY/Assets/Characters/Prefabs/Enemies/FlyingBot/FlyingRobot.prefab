@@ -9,33 +9,56 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
+<<<<<<< .merge_file_6sNuNl
   m_RootGameObject: {fileID: 1409796009748344}
   m_IsPrefabParent: 1
 --- !u!1 &1409796009748344
+=======
+  m_RootGameObject: {fileID: 1485458682056816}
+  m_IsPrefabParent: 1
+--- !u!1 &1061783410201630
+>>>>>>> .merge_file_3NHQxn
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
+<<<<<<< .merge_file_6sNuNl
   - component: {fileID: 4901351980724474}
   - component: {fileID: 143290797716932504}
   - component: {fileID: 114003848468927250}
   m_Layer: 0
   m_Name: FlyingRobot
+=======
+  - component: {fileID: 4088684941584002}
+  m_Layer: 0
+  m_Name: Spawnpoint
+>>>>>>> .merge_file_3NHQxn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+<<<<<<< .merge_file_6sNuNl
 --- !u!1 &1616432305583432
+=======
+--- !u!1 &1485458682056816
+>>>>>>> .merge_file_3NHQxn
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
+<<<<<<< .merge_file_6sNuNl
   - component: {fileID: 4068652099885524}
+=======
+  - component: {fileID: 4857323795973434}
+  - component: {fileID: 143653891148892464}
+  - component: {fileID: 114890705853430706}
+  - component: {fileID: 135042002709645036}
+>>>>>>> .merge_file_3NHQxn
   m_Layer: 0
   m_Name: FlyingRobot
   m_TagString: Untagged
@@ -43,16 +66,26 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+<<<<<<< .merge_file_6sNuNl
 --- !u!1 &1670145261740634
+=======
+--- !u!1 &1738261604020710
+>>>>>>> .merge_file_3NHQxn
 GameObject:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
+<<<<<<< .merge_file_6sNuNl
   - component: {fileID: 4530844527957380}
   - component: {fileID: 137267859487771628}
   - component: {fileID: 111705840100181530}
+=======
+  - component: {fileID: 4840353344560922}
+  - component: {fileID: 137224070473600454}
+  - component: {fileID: 111430524103799070}
+>>>>>>> .merge_file_3NHQxn
   m_Layer: 0
   m_Name: Model
   m_TagString: Untagged
@@ -60,11 +93,44 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+<<<<<<< .merge_file_6sNuNl
 --- !u!4 &4068652099885524
+=======
+--- !u!1 &1974648318891502
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4366135644235444}
+  m_Layer: 0
+  m_Name: FlyingRobot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4088684941584002
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1061783410201630}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 0, y: -0.08, z: -1.782}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4857323795973434}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!4 &4366135644235444
+>>>>>>> .merge_file_3NHQxn
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+<<<<<<< .merge_file_6sNuNl
   m_GameObject: {fileID: 1616432305583432}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 7.82, y: 5.658948, z: 7.93}
@@ -75,10 +141,23 @@ Transform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4530844527957380
+=======
+  m_GameObject: {fileID: 1974648318891502}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.0075, y: 0.0075, z: 0.0075}
+  m_Children:
+  - {fileID: 4840353344560922}
+  m_Father: {fileID: 4857323795973434}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4840353344560922
+>>>>>>> .merge_file_3NHQxn
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
+<<<<<<< .merge_file_6sNuNl
   m_GameObject: {fileID: 1670145261740634}
   m_LocalRotation: {x: -0.49991274, y: 0.50008726, z: 0.49991274, w: 0.50008726}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -88,10 +167,22 @@ Transform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -89.98, y: 90, z: 0}
 --- !u!4 &4901351980724474
+=======
+  m_GameObject: {fileID: 1738261604020710}
+  m_LocalRotation: {x: -0.7069834, y: 0, z: 0, w: 0.7072302}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 100, y: 100, z: 85}
+  m_Children: []
+  m_Father: {fileID: 4366135644235444}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: -89.98, y: 0, z: 0}
+--- !u!4 &4857323795973434
+>>>>>>> .merge_file_3NHQxn
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
+<<<<<<< .merge_file_6sNuNl
   m_GameObject: {fileID: 1409796009748344}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -102,11 +193,28 @@ Transform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!111 &111705840100181530
+=======
+  m_GameObject: {fileID: 1485458682056816}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.27, y: 4.86, z: -1.53}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4366135644235444}
+  - {fileID: 4088684941584002}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!111 &111430524103799070
+>>>>>>> .merge_file_3NHQxn
 Animation:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
+<<<<<<< .merge_file_6sNuNl
   m_GameObject: {fileID: 1670145261740634}
+=======
+  m_GameObject: {fileID: 1738261604020710}
+>>>>>>> .merge_file_3NHQxn
   m_Enabled: 1
   serializedVersion: 3
   m_Animation: {fileID: 7400002, guid: cdffcefee63ce4cf78a8302afcd696f5, type: 3}
@@ -117,17 +225,26 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 1
+<<<<<<< .merge_file_6sNuNl
 --- !u!114 &114003848468927250
+=======
+--- !u!114 &114890705853430706
+>>>>>>> .merge_file_3NHQxn
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
+<<<<<<< .merge_file_6sNuNl
   m_GameObject: {fileID: 1409796009748344}
+=======
+  m_GameObject: {fileID: 1485458682056816}
+>>>>>>> .merge_file_3NHQxn
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 241721d329717b84190008f1be95b389, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< .merge_file_6sNuNl
   shotCooldown: 1
   agro: 0
   player: {fileID: 0}
@@ -135,11 +252,40 @@ MonoBehaviour:
   rotationSpeed: 180
   distanceToPlayer: 15
 --- !u!137 &137267859487771628
+=======
+  shotCooldown: 5
+  standardShotCooldown: 0.3
+  agro: 0
+  speed: 2
+  rotationSpeed: 100
+  distanceToPlayer: 15
+  inaccuracy: 10
+  viewDist: 50
+  projectile: {fileID: 1797515723138814, guid: 1b8209ac740d5a341ae863a45cb5f6fe, type: 2}
+  projectileSpawn: {fileID: 4088684941584002}
+--- !u!135 &135042002709645036
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1485458682056816}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.8
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!137 &137224070473600454
+>>>>>>> .merge_file_3NHQxn
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
+<<<<<<< .merge_file_6sNuNl
   m_GameObject: {fileID: 1670145261740634}
+=======
+  m_GameObject: {fileID: 1738261604020710}
+>>>>>>> .merge_file_3NHQxn
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -194,12 +340,20 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.0000000013969839, y: 0.0011626184, z: 0.0011248421}
     m_Extent: {x: 0.015049988, y: 0.015956054, z: 0.022959653}
   m_DirtyAABB: 0
+<<<<<<< .merge_file_6sNuNl
 --- !u!143 &143290797716932504
+=======
+--- !u!143 &143653891148892464
+>>>>>>> .merge_file_3NHQxn
 CharacterController:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
+<<<<<<< .merge_file_6sNuNl
   m_GameObject: {fileID: 1409796009748344}
+=======
+  m_GameObject: {fileID: 1485458682056816}
+>>>>>>> .merge_file_3NHQxn
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
