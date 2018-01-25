@@ -52,7 +52,8 @@ public class MovingPlattform : MonoBehaviour {
 
     void OnTriggerEnter(Collider coll)
     {
-        coll.transform.SetParent(transform);
+        Debug.Log("ENTER");
+        coll.transform.SetParent(gameObject.transform);
     }
 
     void OnTriggerExit(Collider coll)
