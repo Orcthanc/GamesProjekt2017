@@ -11,6 +11,18 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/LevelTest.unity
     guid: 46202eb7a355f41c19155d4599244d7d
-  - enabled: 1
+  - enabled: 0
     path: Assets/textureTest.unity
     guid: 2da7db8b318454ad58292e997fb88294
+  - enabled: 1
+    path: Assets/GameOver.unity
+    guid: 8a01a225f0d5e4366a5615c486f98d5c
+  - enabled: 1
+    path: Assets/MainMenu.unity
+    guid: ab86f79a86ddd40f3ba1df9726847c4e
+  - enabled: 1
+    path: Assets/level.unity
+    guid: c90ff047130434debac221fefacddcf1
+  - enabled: 1
+    path: Assets/LevelFinished.unity
+    guid: 7705b4359b8d9485d9f2258f5929fb36

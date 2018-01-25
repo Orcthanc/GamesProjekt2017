@@ -8,6 +8,7 @@ public class RobotBehaviour : Enemy
     private Animator anim;
     private NavMeshAgent agent;
     private Transform player;
+    private NewPlayerMovement playerScript;
     private Transform eyes;
     private Transform muzzle;
     private Transform lastSeen;
@@ -15,6 +16,7 @@ public class RobotBehaviour : Enemy
     private float preferedDistance;
     private bool aiming;
     private bool sees;
+    private Collider coll;
 
     public float inaccuracyModifier;
     public float viewDistance;
@@ -23,18 +25,20 @@ public class RobotBehaviour : Enemy
 
     public new void Start()
     {
-        //base.Start();
         anim = gameObject.GetComponentInChildren<Animator>();
         agent = gameObject.GetComponent<NavMeshAgent>();
         player = GameObject.FindWithTag("Player").transform;
+        playerScript = player.GetComponent<NewPlayerMovement>();
         Debug.Log(player.gameObject.layer);
 
         agent.autoTraverseOffMeshLink = true;
         eyes = Find(transform,"Eyes");
         muzzle = Find(transform,"Muzzle");
         shot = GetComponent<LineRenderer>();
+        coll = GetComponent<Collider>(); 
+
         preferedDistance = Random.Range(shootDistance / 2, shootDistance);
-        updateLastSeen();
+        lastSeen = null;    
         agent.SetDestination(transform.position);
 
         if (eyes == null)
@@ -56,8 +60,9 @@ public class RobotBehaviour : Enemy
 
         anim.Update(Time.deltaTime);
 
-        if (lastSeen != null && agent.destination != lastSeen.position && sees)
+        if (lastSeen != null && agent.destination != lastSeen.position && SeesPlayer())
         {
+            Debug.Log("AAAAAAAAAAAAAAAAAAAAAAAAAAAa: " + SeesPlayer());
             Destinate(lastSeen);
         }
 
@@ -75,7 +80,8 @@ public class RobotBehaviour : Enemy
 
         if (Distance(player) < preferedDistance)
         {
-            if(sees){
+            if (SeesPlayer())
+            {
                 Destinate(gameObject.transform);
                 setAim();
                 LookAt(player);
@@ -86,14 +92,6 @@ public class RobotBehaviour : Enemy
                     Shoot();
                 }
             }
-            else
-            {
-                Debug.Log("test");
-            }
-        }
-        else
-        {
-            Debug.Log("test");
         }
     }
 
@@ -123,9 +121,12 @@ public class RobotBehaviour : Enemy
             }
 
 
-            if (Physics.Raycast(muzzle.position, dir, out hitInfo ,shootDistance) && hitInfo.collider.gameObject.layer.Equals(9))
+            if (Physics.Raycast(muzzle.position, player.position - eyes.position, out hitInfo, viewDistance))
             {
-                Debug.Log("PlayerHit");
+                if (hitInfo.transform == player)
+                {
+                    playerScript.Damage -= Random.Range(5, 10);
+                }
             }
 
             anim.SetTrigger("Shoot");
@@ -195,26 +196,17 @@ public class RobotBehaviour : Enemy
     bool SeesPlayer()
     {
         // bit shift the index of the layer to get a bit mask 
-        int layermask = 1 << 9;
 
         RaycastHit hit;
-
-        if (Physics.Raycast(transform.position, player.position - transform.position, out hit, viewDistance))
+        if (Physics.Raycast(eyes.position, player.position - eyes.position, out hit, viewDistance))
         {
-            Debug.DrawRay(eyes.position, hit.point - eyes.position, Color.red, 0.1f);
-            if (hit.collider.gameObject.layer.Equals(9))
-
+            if (hit.transform == player)
+            {
                 Debug.Log("I SEE YOU");
                 return true;
+            }
+        }
 
-                if (Mathf.Abs(Vector3.Angle(
-                        from: transform.forward,
-                        to: hit.point - transform.position)
-                        - 180) < 90)
-                {
-                    return true;
-                }
-                    }
         return false;
     }
 
@@ -223,6 +215,7 @@ public class RobotBehaviour : Enemy
     /// </summary>
     public void updateLastSeen(){
         sees = false;
+        lastSeen = null;
         if(SeesPlayer()){
             sees = true;
             lastSeen = player;

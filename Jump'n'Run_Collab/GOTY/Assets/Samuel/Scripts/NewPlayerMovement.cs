@@ -3,7 +3,8 @@ using UnityEngine;
 
 [RequireComponent(typeof(CapsuleCollider))]
 [RequireComponent(typeof(CharacterController))]
-public class NewPlayerMovement : MonoBehaviour {
+public class NewPlayerMovement : MonoBehaviour
+{
 
     [Serializable]
     public class MovementSettings
@@ -108,7 +109,8 @@ public class NewPlayerMovement : MonoBehaviour {
     }
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         anim = GetComponentInChildren<Animation>();
         weapon = 1;
         pellets = 10;
@@ -119,7 +121,7 @@ public class NewPlayerMovement : MonoBehaviour {
         charController = GetComponent<CharacterController>();
         m_Capsule = GetComponent<CapsuleCollider>();
         m_CircleBuffer = new CircleBuffer(1000);
-	}
+    }
 
     //----------------------------------------------------------------
     int weapon;
@@ -141,7 +143,8 @@ public class NewPlayerMovement : MonoBehaviour {
     private Animation anim;
 
     // Update is called once per frame
-    void Update () {
+    void Update()
+    {
 
         if (Input.GetButton("Ability2"))
         {
@@ -149,7 +152,7 @@ public class NewPlayerMovement : MonoBehaviour {
             Vector3 pos;
             Quaternion rot;
             Quaternion camRot;
-            if(m_CircleBuffer.Pop(out pos, out rot, out camRot))
+            if (m_CircleBuffer.Pop(out pos, out rot, out camRot))
             {
                 transform.position = pos;
                 transform.rotation = rot;
