@@ -75,7 +75,7 @@ public class NewPlayerMovement : MonoBehaviour {
     private CircleBuffer m_CircleBuffer;
     private bool m_Jump, m_PreviouslyGrounded, m_Jumping, m_IsGrounded, m_DoubleJumpReady, m_SlowTime, m_ChangeTimeScale, m_ReverseTime, m_PrevTimeReverse;
 
-    private int m_hp;
+    public int m_hp;
 
     /// <summary>
     /// Gets remaining hp.
@@ -133,6 +133,7 @@ public class NewPlayerMovement : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        m_hp = 100;
         mouseLook.Init(transform, cam.transform);
         charController = GetComponent<CharacterController>();
         m_Capsule = GetComponent<CapsuleCollider>();
@@ -140,6 +141,8 @@ public class NewPlayerMovement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+        GetComponent<HUDInterface>().UpdateHUD();
 
         if (Input.GetButton("Ability2"))
         {

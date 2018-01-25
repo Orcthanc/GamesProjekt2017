@@ -20,17 +20,17 @@ public class HUDInterface : MonoBehaviour {
         otherScript = player.GetComponent<NewPlayerMovement>();
 	}
 	
-	public  void updateHUD()
+	public  void UpdateHUD()
     {
         //Health Stuff
-        ratioHealth = maxHP / otherScript.Damage;
+        ratioHealth = otherScript.Damage / maxHP;
         currentHealth.rectTransform.localScale = new Vector3(ratioHealth, 1, 1);
         ratioTextHp.text =(Math.Round(ratioHealth * 100)).ToString();
 
         //Heat Stuff
         //ratioHeat = maxHeat / otherScript.Heat;
-        currentHeat.rectTransform.localScale = new Vector3(ratioHeat, 1, 1);
-        ratioTextHeat.text = (Math.Round(ratioHeat * 100)).ToString();
+        //currentHeat.rectTransform.localScale = new Vector3(ratioHeat, 1, 1);
+        //ratioTextHeat.text = (Math.Round(ratioHeat * 100)).ToString();
     }
 
     
