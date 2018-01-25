@@ -303,7 +303,7 @@ public class NewPlayerMovement : MonoBehaviour
         {
             fireDelay -= Time.deltaTime;
         }
-        if (Input.GetKey(weaponSwapOne))
+        if (Input.GetKeyDown(weaponSwapOne))
         {
             weapon--;
             if (weapon == 0)
@@ -312,7 +312,7 @@ public class NewPlayerMovement : MonoBehaviour
             }
             changeWeapon();
         }
-        else if (Input.GetKey(weaponSwapTwo))
+        else if (Input.GetKeyDown(weaponSwapTwo))
         {
             weapon++;
             if (weapon == 4)
@@ -424,7 +424,7 @@ public class NewPlayerMovement : MonoBehaviour
         accuracy = 0f;
         heatbuildup = 10;
         coolingRate = 5;
-        maxRange = 25;
+        maxRange = 45000;
     }
 
     public bool CheckGround()
