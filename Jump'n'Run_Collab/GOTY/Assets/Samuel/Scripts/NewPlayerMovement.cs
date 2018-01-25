@@ -309,6 +309,7 @@ public class NewPlayerMovement : MonoBehaviour
 
     void fireWeapon()
     {
+        Debug.Log("IMMA FIRING MA LASER");
         if (weapon == 1 || weapon == 2)
         {
             fireBullet();
