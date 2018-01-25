@@ -15,6 +15,9 @@ public abstract class Projectile : MonoBehaviour {
 
     public virtual void OnTriggerEnter(Collider other)
     {
+        NewPlayerMovement temp;
+        if ((temp = other.gameObject.GetComponent<NewPlayerMovement>()) != null)
+            temp.Damage = 10;
         Destroy(gameObject);
     }
 
