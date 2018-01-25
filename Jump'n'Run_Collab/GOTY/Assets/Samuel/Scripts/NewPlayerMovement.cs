@@ -121,7 +121,7 @@ public class NewPlayerMovement : MonoBehaviour
         anim = GetComponentInChildren<Animation>();
         weapon = 1;
         pellets = 10;
-        setLMG();
+        SetLMG();
         currentAccuracy = minimumAccuracy;
         heat = 0;
         mouseLook.Init(transform, cam.transform);
@@ -152,6 +152,8 @@ public class NewPlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(" abc " + getRemainingPCT());
+
         GetComponent<HUDInterface>().UpdateHUD();
 
         if (Input.GetButton("Ability2"))
@@ -329,22 +331,22 @@ public class NewPlayerMovement : MonoBehaviour
     {
         if (weapon == 1)
         {
-            setLMG();
+            SetLMG();
         }
         else if (weapon == 2)
         {
-            setSniper();
+            SetSniper();
         }
         else if (weapon == 3)
         {
-            setShotgun();
+            SetShotgun();
         }
     }
 
     /// <summary>
     /// sets weapon mode to "LMG" config
     /// </summary>
-    public void setLMG()
+    public void SetLMG()
     {
         bulletDamage = 30;
         fireRate = 0.5f;
@@ -360,7 +362,7 @@ public class NewPlayerMovement : MonoBehaviour
     /// <summary>
     /// sets Weapon mode to "Sniper" config
     /// </summary>
-    public void setSniper()
+    public void SetSniper()
     {
         bulletDamage = 100;
         fireRate = 2f;
@@ -375,7 +377,7 @@ public class NewPlayerMovement : MonoBehaviour
     /// <summary>
     /// sets Weapon mode to "Shotgun" config
     /// </summary>
-    public void setShotgun()
+    public void SetShotgun()
     {
         bulletDamage = 15;
         fireRate = 1f;
@@ -388,12 +390,16 @@ public class NewPlayerMovement : MonoBehaviour
 
     public bool CheckGround()
     {
-        Debug.DrawRay(transform.position, (-Vector3.up) * (m_Capsule.height / 2 + 0.1f));
-        Debug.Log((m_Capsule.height / 2 + 0.1f));
-        if (Physics.Raycast(transform.position, -Vector3.up, m_Capsule.height / 2 + 0.1f))
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, -Vector3.up, out hit, m_Capsule.height / 2 + 0.1f))
         {
             return true;
         }
         return false;
+    }
+
+    public float getRemainingPCT()
+    {
+        return m_CircleBuffer.getRemainingPct();
     }
 }
