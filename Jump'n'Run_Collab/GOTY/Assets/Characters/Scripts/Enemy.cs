@@ -13,9 +13,12 @@ public abstract class Enemy : MonoBehaviour {
 
     protected CharacterController charController;
 
+<<<<<<< .merge_file_zLOWRa
+=======
     /// <summary>
     /// Used to get the following hp or remove a certain amount of hp with the setter (hp -= value)
     /// </summary>
+>>>>>>> .merge_file_rhR4GY
     public int Damage
     {
         get{
@@ -24,6 +27,17 @@ public abstract class Enemy : MonoBehaviour {
 
         set{
             hp -= value;
+<<<<<<< .merge_file_zLOWRa
+        }
+    }
+
+    public void Start()
+    {
+        charController = GetComponent<CharacterController>();
+    }
+
+    public void Update()
+=======
             if (hp <= 0)
                 Kill();
         }
@@ -39,6 +53,7 @@ public abstract class Enemy : MonoBehaviour {
     }
 
     public virtual void Update()
+>>>>>>> .merge_file_rhR4GY
     {
         if (agro)
         {
@@ -56,6 +71,12 @@ public abstract class Enemy : MonoBehaviour {
         }
     }
 
+<<<<<<< .merge_file_zLOWRa
+    public abstract bool CheckAgro();
+
+    public abstract void Move();
+
+=======
     /// <summary>
     /// Used to check agro while not agroed (is player in sight?)
     /// </summary>
@@ -70,6 +91,7 @@ public abstract class Enemy : MonoBehaviour {
     /// <summary>
     /// Spawns a new projectile
     /// </summary>
+>>>>>>> .merge_file_rhR4GY
     public abstract void Shoot();
 
 }
