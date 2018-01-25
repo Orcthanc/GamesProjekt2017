@@ -29,8 +29,6 @@ public class RobotBehaviour : Enemy
         agent = gameObject.GetComponent<NavMeshAgent>();
         player = GameObject.FindWithTag("Player").transform;
         playerScript = player.GetComponent<NewPlayerMovement>();
-        Debug.Log(player.gameObject.layer);
-
         agent.autoTraverseOffMeshLink = true;
         eyes = Find(transform,"Eyes");
         muzzle = Find(transform,"Muzzle");
@@ -66,17 +64,16 @@ public class RobotBehaviour : Enemy
             Destinate(lastSeen);
         }
 
-        LookAt(agent.nextPosition);
 
-        if (agent.speed > 0.00001f)
+
+        if (agent.speed > 0.00f)
         {
             setWalk();
         } else {
             setAim();
         }
 
-
-
+        LookAt(agent.nextPosition);
 
         if (Distance(player) < preferedDistance)
         {
@@ -88,7 +85,7 @@ public class RobotBehaviour : Enemy
 
                 if (shotCooldown < 0)
                 {
-                    shotCooldown += standardShotCooldown;
+                    shotCooldown = standardShotCooldown;
                     Shoot();
                 }
             }
@@ -125,7 +122,7 @@ public class RobotBehaviour : Enemy
             {
                 if (hitInfo.transform == player)
                 {
-                    playerScript.Damage = Random.Range(0, 5);
+                    playerScript.Damage = Random.Range(5, 15);
                 }
             }
 
