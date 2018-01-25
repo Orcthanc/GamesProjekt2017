@@ -98,4 +98,16 @@ public class CircleBuffer {
         return (lastEl - firstEl + size) % size;
     }
 
+    public void Shorten(int amount)
+    {
+        for (; amount >= 0; amount--)
+        {
+            Debug.Log(amount);
+            if (lastEl != firstEl)
+            {
+                firstEl = (firstEl + 1) % size;
+            }
+        }
+    }
+
 }

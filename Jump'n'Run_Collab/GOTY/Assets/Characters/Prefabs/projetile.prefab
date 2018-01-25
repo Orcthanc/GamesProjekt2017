@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 33772916733850404}
   - component: {fileID: 23857655015622688}
   - component: {fileID: 135347015637695250}
+  - component: {fileID: 54625911904275706}
   m_Layer: 0
   m_Name: projetile
   m_TagString: Untagged
@@ -113,6 +114,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1299055442493842}
   m_Mesh: {fileID: 4300000, guid: c28db27ec87e44fb99ccd21974921a74, type: 3}
+--- !u!54 &54625911904275706
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1299055442493842}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!108 &108870545649030170
 Light:
   m_ObjectHideFlags: 1
@@ -156,7 +172,7 @@ SphereCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1299055442493842}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.0020133222

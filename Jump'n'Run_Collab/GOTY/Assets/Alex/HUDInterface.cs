@@ -29,7 +29,6 @@ public class HUDInterface : MonoBehaviour {
         ratioText.text = Math.Round(ratioHealth * 100).ToString();
         //Heat Stuff
         currentHeat.fillAmount = (otherScript.Heat / maxHeat)/2;
-        Debug.Log(currentHeat.fillAmount);
         //TimeStuff
         currentTime.fillAmount = otherScript.getRemainingPCT()/2;
     }
