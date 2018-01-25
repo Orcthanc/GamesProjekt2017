@@ -159,8 +159,6 @@ public class NewPlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(" abc " + getRemainingPCT());
-
         GetComponent<HUDInterface>().UpdateHUD();
 
         if (Input.GetButton("Ability2"))
@@ -197,7 +195,13 @@ public class NewPlayerMovement : MonoBehaviour
             }
             Time.fixedDeltaTime = 0.02f * Time.timeScale;
         }
-        
+
+        if(m_TimeSlow && m_CircleBuffer.getRemainingSize() < 1)
+        {
+            m_TimeSlow = false;
+            Time.timeScale = 1;
+            Time.fixedDeltaTime = 0.02f * Time.timeScale;
+        }
 
         mouseLook.LookRotation(transform, cam.transform, false);
 
@@ -230,6 +234,11 @@ public class NewPlayerMovement : MonoBehaviour
         }
 
         m_CircleBuffer.Push(transform.position, transform.rotation, cam.transform.rotation);
+
+        if (m_TimeSlow)
+        {
+            m_CircleBuffer.Shorten(2);
+        }
 
         if (Input.GetButton("Fire1") && overheat == false && fireDelay <= 0)
         {
@@ -271,7 +280,6 @@ public class NewPlayerMovement : MonoBehaviour
         {
             fireDelay -= Time.deltaTime;
         }
-        Debug.Log("Current HEAT-LeveL: " + heat);
         if (Input.GetButtonDown("Fire2"))
         {
             weapon--;
