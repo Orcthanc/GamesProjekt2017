@@ -395,4 +395,9 @@ public class NewPlayerMovement : MonoBehaviour
         }
         return false;
     }
+
+    public float getRemainingPCT()
+    {
+        return m_CircleBuffer.getRemainingPct();
+    }
 }
