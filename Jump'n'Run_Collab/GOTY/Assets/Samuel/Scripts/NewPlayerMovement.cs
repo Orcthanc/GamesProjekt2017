@@ -142,6 +142,13 @@ public class NewPlayerMovement : MonoBehaviour
     float accuracy;             //How much spread is added to hipfire after every shot
     float heatbuildup;          //How much heat is added after every shot
     float heat;                 //Current amount of heat. if heat reaches 100, weapons are disabled until heat falls to atleast 30
+    public float Heat
+    {
+        get
+        {
+            return heat;
+        }
+    }
     float coolingRate;      //How quick the gun cools. Currently UNUSED
     bool overheat;              //States if weapon is overheated or not
     float maxRange;      //Range after which raycast stops
