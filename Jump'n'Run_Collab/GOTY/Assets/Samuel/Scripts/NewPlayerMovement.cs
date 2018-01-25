@@ -149,6 +149,8 @@ public class NewPlayerMovement : MonoBehaviour
     float accuracy;             //How much spread is added to hipfire after every shot
     float heatbuildup;          //How much heat is added after every shot
     float heat;                 //Current amount of heat. if heat reaches 100, weapons are disabled until heat falls to atleast 30
+    KeyCode weaponSwapOne = KeyCode.I;
+    KeyCode weaponSwapTwo = KeyCode.O;
     public float Heat
     {
         get
@@ -252,6 +254,10 @@ public class NewPlayerMovement : MonoBehaviour
             Debug.Log("Weaponmode: " + weapon + "Pelletnumber: " + pellets);
             anim.Play("Shoot");
             heat += heatbuildup;
+            if (heat > 100)
+            {
+                heat = 100;
+            }
             fireDelay = fireRate;
             fireWeapon();
             if (heat >= 100)
@@ -280,6 +286,16 @@ public class NewPlayerMovement : MonoBehaviour
                     heat = 0;
                 }
             }
+        } else if (Input.GetButton("Fire1") && overheat)
+        {
+            if (heat > 0)
+            {
+                heat -= coolingRate;
+                if (heat < 0)
+                {
+                    heat = 0;
+                }
+            }
         }
         if (overheat && heat <= 30)
             overheat = false;
@@ -287,7 +303,7 @@ public class NewPlayerMovement : MonoBehaviour
         {
             fireDelay -= Time.deltaTime;
         }
-        if (Input.GetButtonDown("Fire2"))
+        if (Input.GetKey(weaponSwapOne))
         {
             weapon--;
             if (weapon == 0)
@@ -296,7 +312,7 @@ public class NewPlayerMovement : MonoBehaviour
             }
             changeWeapon();
         }
-        else if (Input.GetButtonDown("Fire3"))
+        else if (Input.GetKey(weaponSwapTwo))
         {
             weapon++;
             if (weapon == 4)
