@@ -6,12 +6,13 @@ using UnityEngine.UI;
 
 public class HUDInterface : MonoBehaviour {
     public  Image currentHealth;
-
+    public Image currentTime;
     public Image currentHeat;
+    public Text ratioText;
     private static float maxHP = 100;
     private static float ratioHealth;
     private static float maxHeat = 100;
-    private static float ratioHeat;
+
 
     public GameObject player;
     static NewPlayerMovement otherScript;
@@ -25,11 +26,12 @@ public class HUDInterface : MonoBehaviour {
         //Health Stuff
         ratioHealth = otherScript.Damage / maxHP;
         currentHealth.rectTransform.localScale = new Vector3(ratioHealth, 1, 1);
-
+        ratioText.text = Math.Round(ratioHealth * 100).ToString();
         //Heat Stuff
-        //ratioHeat = maxHeat / otherScript.heat;
-        //currentHeat.fillAmount = ratioHeat / 2;
-        //TimeReverseStuff
+        currentHeat.fillAmount = (otherScript.Heat / maxHeat)/2;
+        Debug.Log(currentHeat.fillAmount);
+        //TimeStuff
+        currentTime.fillAmount = otherScript.getRemainingPCT()/2;
     }
 
     
