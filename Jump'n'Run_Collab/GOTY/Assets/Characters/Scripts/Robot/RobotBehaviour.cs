@@ -8,7 +8,10 @@ public class RobotBehaviour : Enemy
     private Animator anim;
     private NavMeshAgent agent;
     private Transform player;
+<<<<<<< .merge_file_ZQVgYZ
     private NewPlayerMovement playerScript;
+=======
+>>>>>>> .merge_file_sdPOGW
     private Transform eyes;
     private Transform muzzle;
     private Transform lastSeen;
@@ -16,7 +19,10 @@ public class RobotBehaviour : Enemy
     private float preferedDistance;
     private bool aiming;
     private bool sees;
+<<<<<<< .merge_file_ZQVgYZ
     private Collider coll;
+=======
+>>>>>>> .merge_file_sdPOGW
 
     public float inaccuracyModifier;
     public float viewDistance;
@@ -25,20 +31,32 @@ public class RobotBehaviour : Enemy
 
     public new void Start()
     {
+<<<<<<< .merge_file_ZQVgYZ
         anim = gameObject.GetComponentInChildren<Animator>();
         agent = gameObject.GetComponent<NavMeshAgent>();
         player = GameObject.FindWithTag("Player").transform;
         playerScript = player.GetComponent<NewPlayerMovement>();
+=======
+        //base.Start();
+        anim = gameObject.GetComponentInChildren<Animator>();
+        agent = gameObject.GetComponent<NavMeshAgent>();
+        player = GameObject.FindWithTag("Player").transform;
+>>>>>>> .merge_file_sdPOGW
         Debug.Log(player.gameObject.layer);
 
         agent.autoTraverseOffMeshLink = true;
         eyes = Find(transform,"Eyes");
         muzzle = Find(transform,"Muzzle");
         shot = GetComponent<LineRenderer>();
+<<<<<<< .merge_file_ZQVgYZ
         coll = GetComponent<Collider>(); 
 
         preferedDistance = Random.Range(shootDistance / 2, shootDistance);
         lastSeen = null;    
+=======
+        preferedDistance = Random.Range(shootDistance / 2, shootDistance);
+        updateLastSeen();
+>>>>>>> .merge_file_sdPOGW
         agent.SetDestination(transform.position);
 
         if (eyes == null)
@@ -60,9 +78,14 @@ public class RobotBehaviour : Enemy
 
         anim.Update(Time.deltaTime);
 
+<<<<<<< .merge_file_ZQVgYZ
         if (lastSeen != null && agent.destination != lastSeen.position && SeesPlayer())
         {
             Debug.Log("AAAAAAAAAAAAAAAAAAAAAAAAAAAa: " + SeesPlayer());
+=======
+        if (lastSeen != null && agent.destination != lastSeen.position && sees)
+        {
+>>>>>>> .merge_file_sdPOGW
             Destinate(lastSeen);
         }
 
@@ -80,8 +103,12 @@ public class RobotBehaviour : Enemy
 
         if (Distance(player) < preferedDistance)
         {
+<<<<<<< .merge_file_ZQVgYZ
             if (SeesPlayer())
             {
+=======
+            if(sees){
+>>>>>>> .merge_file_sdPOGW
                 Destinate(gameObject.transform);
                 setAim();
                 LookAt(player);
@@ -92,6 +119,17 @@ public class RobotBehaviour : Enemy
                     Shoot();
                 }
             }
+<<<<<<< .merge_file_ZQVgYZ
+=======
+            else
+            {
+                Debug.Log("test");
+            }
+        }
+        else
+        {
+            Debug.Log("test");
+>>>>>>> .merge_file_sdPOGW
         }
     }
 
@@ -121,12 +159,18 @@ public class RobotBehaviour : Enemy
             }
 
 
+<<<<<<< .merge_file_ZQVgYZ
             if (Physics.Raycast(muzzle.position, player.position - eyes.position, out hitInfo, viewDistance))
             {
                 if (hitInfo.transform == player)
                 {
                     playerScript.Damage -= Random.Range(5, 10);
                 }
+=======
+            if (Physics.Raycast(muzzle.position, dir, out hitInfo ,shootDistance) && hitInfo.collider.gameObject.layer.Equals(9))
+            {
+                Debug.Log("PlayerHit");
+>>>>>>> .merge_file_sdPOGW
             }
 
             anim.SetTrigger("Shoot");
@@ -196,6 +240,7 @@ public class RobotBehaviour : Enemy
     bool SeesPlayer()
     {
         // bit shift the index of the layer to get a bit mask 
+<<<<<<< .merge_file_ZQVgYZ
 
         RaycastHit hit;
         if (Physics.Raycast(eyes.position, player.position - eyes.position, out hit, viewDistance))
@@ -207,6 +252,28 @@ public class RobotBehaviour : Enemy
             }
         }
 
+=======
+        int layermask = 1 << 9;
+
+        RaycastHit hit;
+
+        if (Physics.Raycast(transform.position, player.position - transform.position, out hit, viewDistance))
+        {
+            Debug.DrawRay(eyes.position, hit.point - eyes.position, Color.red, 0.1f);
+            if (hit.collider.gameObject.layer.Equals(9))
+
+                Debug.Log("I SEE YOU");
+                return true;
+
+                if (Mathf.Abs(Vector3.Angle(
+                        from: transform.forward,
+                        to: hit.point - transform.position)
+                        - 180) < 90)
+                {
+                    return true;
+                }
+                    }
+>>>>>>> .merge_file_sdPOGW
         return false;
     }
 
@@ -215,7 +282,10 @@ public class RobotBehaviour : Enemy
     /// </summary>
     public void updateLastSeen(){
         sees = false;
+<<<<<<< .merge_file_ZQVgYZ
         lastSeen = null;
+=======
+>>>>>>> .merge_file_sdPOGW
         if(SeesPlayer()){
             sees = true;
             lastSeen = player;

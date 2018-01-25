@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(CharacterController))]
 public class FlyingRobotBehaviour : Enemy {
 
     private GameObject player;
