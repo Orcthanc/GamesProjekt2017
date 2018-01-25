@@ -53,7 +53,7 @@ public abstract class ButtonScript : Enemy
 
     void checkPushed(){
         if(Input.GetButtonDown("Submit")){
-            if(Physics.OverlapSphere(gameObject.transform.position, 1f, 1 << 9).Length != 0){
+            if(Physics.OverlapSphere(gameObject.transform.position, 3f, 1 << 9).Length != 0){
                 push();
             }
         }

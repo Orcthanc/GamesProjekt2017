@@ -1,5 +1,7 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using System.Runtime.Remoting.Lifetime;
 
 [RequireComponent(typeof(CapsuleCollider))]
 [RequireComponent(typeof(CharacterController))]
@@ -54,7 +56,7 @@ public class NewPlayerMovement : MonoBehaviour
     [Serializable]
     public class HudSettings
     {
-    
+
     }
 
     public Camera cam;
@@ -68,6 +70,7 @@ public class NewPlayerMovement : MonoBehaviour
     private Vector3 m_YVel;
     private CircleBuffer m_CircleBuffer;
     private bool m_DoubleJumpReady, m_TimeSlow, m_PrevRevTime;
+    private GameObject respawn;
 
     public int m_hp;
 
@@ -90,8 +93,11 @@ public class NewPlayerMovement : MonoBehaviour
 
     public void Die()
     {
-        //TODO
-        Debug.Log("Rip Player");
+        if(respawn == null){
+            SceneManager.LoadScene("GameOver");
+        }
+        gameObject.transform.position = respawn.transform.position;
+        m_hp = 100;
     }
 
     public bool Running
@@ -128,6 +134,7 @@ public class NewPlayerMovement : MonoBehaviour
         charController = GetComponent<CharacterController>();
         m_Capsule = GetComponent<CapsuleCollider>();
         m_CircleBuffer = new CircleBuffer(1000);
+        respawn = GameObject.FindWithTag("Respawn");
     }
 
     //----------------------------------------------------------------
