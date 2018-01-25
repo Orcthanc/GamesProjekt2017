@@ -76,9 +76,6 @@ public class FlyingRobotBehaviour : Enemy {
 
         RaycastHit hit;
 
-        Debug.Log(!Physics.Raycast(transform.position, player.transform.position - transform.position, viewDist, othermask));
-        Debug.Log(Physics.Raycast(transform.position, player.transform.position - transform.position, out hit, viewDist, layermask));
-
         if (Physics.Raycast(transform.position, player.transform.position - transform.position, out hit, viewDist, layermask))
         {
             Debug.DrawRay(transform.position, player.transform.position - transform.position, Color.red, 1f);
