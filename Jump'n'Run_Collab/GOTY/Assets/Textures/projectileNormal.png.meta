@@ -57,9 +57,6 @@ TextureImporter:
   textureFormatSet: 0
   platformSettings:
   - buildTarget: DefaultTexturePlatform
-<<<<<<< HEAD
-    maxTextureSize: 2048
-=======
     maxTextureSize: 256
     resizeAlgorithm: 0
     textureFormat: -1
@@ -71,7 +68,6 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   - buildTarget: Standalone
     maxTextureSize: 256
->>>>>>> f994e195702a41ccc3944cfbacee4ea16e12d7ec
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
