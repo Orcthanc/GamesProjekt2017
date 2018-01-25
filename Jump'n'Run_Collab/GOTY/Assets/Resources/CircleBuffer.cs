@@ -95,7 +95,7 @@ public class CircleBuffer {
 
     public int getRemainingSize()
     {
-        return (lastEl - size + 500) % size;
+        return (lastEl - firstEl + size) % size;
     }
 
 }

@@ -152,6 +152,8 @@ public class NewPlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(" abc " + getRemainingPCT());
+
         GetComponent<HUDInterface>().UpdateHUD();
 
         if (Input.GetButton("Ability2"))
