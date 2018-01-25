@@ -55,6 +55,12 @@ public class NewPlayerMovement : MonoBehaviour {
         public float gravity = 10f;
     }
 
+    [Serializable]
+    public class HudSettings
+    {
+    
+    }
+
     public Camera cam;
     public MovementSettings movementSettings = new MovementSettings();
     public MouseLook mouseLook = new MouseLook();
