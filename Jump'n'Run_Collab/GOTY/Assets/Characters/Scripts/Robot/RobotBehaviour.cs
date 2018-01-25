@@ -125,7 +125,7 @@ public class RobotBehaviour : Enemy
             {
                 if (hitInfo.transform == player)
                 {
-                    playerScript.Damage -= Random.Range(5, 10);
+                    playerScript.Damage = Random.Range(5, 10);
                 }
             }
 
